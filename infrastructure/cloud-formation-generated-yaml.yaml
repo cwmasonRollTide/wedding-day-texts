@@ -355,6 +355,22 @@ Metadata:
       target:
         id: 1f57c3be-2966-4525-9cfb-1ea1e1bb9c90
       z: 21
+    c8f709d2-d478-4a25-8296-ec08084f28f1:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 768.7580642700195
+        'y': 502.2342987060547
+      z: 0
+      isassociatedwith:
+        - 1f57c3be-2966-4525-9cfb-1ea1e1bb9c90
+    e8dc53cf-fe60-4f34-83dd-24c2d462d843:
+      source:
+        id: c8f709d2-d478-4a25-8296-ec08084f28f1
+      target:
+        id: 1f57c3be-2966-4525-9cfb-1ea1e1bb9c90
+      z: 22
 Resources:
   PIAT4SG5T:
     Type: 'AWS::Pinpoint::InAppTemplate'
@@ -546,3 +562,10 @@ Resources:
         id: 9d1220c1-3fad-47e2-aefc-3c095d13ebe7
     DependsOn:
       - S3B522FV
+  S3BP1K1X6:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3B522FV
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c8f709d2-d478-4a25-8296-ec08084f28f1
