@@ -1,5 +1,3 @@
-AWSTemplateFormatVersion: '2010-09-09'
-
 Description: >
   Creates the infrastructure to host and expose a Single Page Application:
       - An Amazon S3 bucket for hosting the application

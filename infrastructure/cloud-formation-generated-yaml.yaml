@@ -350,8 +350,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: f2e5b66d-cf7e-46ae-ae39-25ed81251fba
-    DependsOn:
-      - SNSTP336L0
   LF1R1RB:
     Type: 'AWS::Lambda::Function'
     Properties: {}
@@ -487,8 +485,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: a23b8ea8-ba8e-435e-b3d4-2d04aee2d4e1
-    DependsOn:
-      - LF1R1RB
   SNSTP336L0:
     Type: 'AWS::SNS::TopicPolicy'
     Properties:

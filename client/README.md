@@ -1,6 +1,4 @@
-![Continuous Integration](https://github.com/aws-samples/react-cors-spa/actions/workflows/ci.yml/badge.svg)
-
-# Getting Started with the React Cors Application
+# Wedding Day Texts Client - Public Facing Text Scroll
 
 ## Getting started
 
@@ -13,7 +11,7 @@ then start the application locally using the following command:
 ## Deploying to AWS
 
 In order to deploy to AWS, you have to take the following steps:
-1. Deploy the CloudFormation Template from the project (`react-cors-spa-stack.yaml`) using AWS CLI or AWS Console
+1. Deploy the CloudFormation Template from the project (`wedding-day-text-deployment.yaml`) using AWS CLI or AWS Console
 2. Once your stack is deployed, from the "Output" tab, identify the "APIEndpoint" URL as well as the S3 "Bucket" name
 3. Copy the API endpoint URL identified at step 2 and paste it in the App.js line 26
 4. Build the (using `yarn build`) app for distribution
@@ -49,4 +47,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## License
 
-This sample application is licensed under [the MIT-0 License](https://github.com/aws/mit-0).
+This application is licensed under [the MIT-0 License](https://github.com/aws/mit-0).

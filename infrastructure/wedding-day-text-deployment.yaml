@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Initial Experiments with infrastructure for Wedding Day Texts
+  Text Message --> SNS Topic --> Censorship Lambda Function --> 
+    A.) Profanity Found? Send to Profane SNS topic --> Dynamo Archiver Function AND back to Pinpoint to send response
+    B.) Deemed PG-13? Send to Safe To View Topic --> S3 Archiver Function 
+Resources:
+  WeddingDayTextsPhone:
+    Type: 'AWS::Pinpoint::InAppTemplate'
+    Properties:
+      Name: WeddingDayTextsLine
+  PhoneSettings:
+    Type: AWS::Pinpoint::ApplicationSettings
+    Properties:
+      ApplicationId: !Ref WeddingDayTextsPhone
+      CloudWatchMetricsEnabled: True
+  TextReceivedTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: !Sub 'text-received'
+      TopicName: !Sub 'text-received'
+      Subscription:
+        - Protocol: lambda
+      Endpoint:
+        !GetAtt CensorshipFunction.Arn
+  TextReceivedTopicPolicy:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      Topics:
+        - !Ref TextReceivedTopic
+      PolicyDocument:
+        Id: TextReceivedTopicPolicy
+        Version: '2012-10-17'
+        Statement:
+          - Sid: My-statement-id
+            Effect: Allow
+            Principal:
+              AWS: !GetAtt myuser.Arn
+            Action: sns:Publish
+            Resource: "*"
+      Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+      Action: 'sns:Publish'
+      Resource: !Ref TextReceivedTopic
+      Principal:
+        AWS: '*'
+      Condition:
+        ArnLike:
+          AWS:SourceArn: !Sub 'arn:aws:*:*:${AWS::AccountId}:*'
+  CensorshipFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../functions/censorship
+      Handler: index.handler
+      Runtime: nodejs8.10
+  CensorshipFunctionInvokePermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref CensorshipFunction
+      Principal: sns.amazonaws.com   
