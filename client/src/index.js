@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import WeddingDayTexts from './WeddingDayTexts';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <WeddingDayTexts />
   </React.StrictMode>,
   document.getElementById('root')
 );

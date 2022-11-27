@@ -1,0 +1,190 @@
+#AWSTemplateFormatVersion: '2010-09-09'
+#Transform: AWS::Serverless-2016-10-31
+Description: >
+  Initial Experiments with infrastructure for Wedding Day Texts
+  Text Message --> SNS Topic --> Censorship Lambda Function --> 
+    A.) Profanity Found? Send to Profane SNS topic --> Dynamo Archiver Function AND back to Pinpoint to send response
+    B.) Deemed PG-13? Send to Safe To View Topic --> S3 Archiver Function
+Resources:
+  WeddingDayTextsApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      EndpointConfiguration:
+        Name: 'WeddingDayTextsEndpoint'
+        Description: 'Endpoint to send text messages with picture media to. Has to be sent in url encoded form over get request because reasons'
+    Events:
+      ApiEvent:
+        Type: Api
+        Properties:
+          Path: /weddingdaytexts
+          Method: get
+#          RequestParameters:
+#            - method.request.header.Authorization
+  ApiGatewayMethod:
+    Type: AWS::ApiGateway::Method
+      Properties:
+        AuthorizationType: NONE
+        HttpMethod: GET
+        Integration:
+          IntegrationHttpMethod: GET
+          Type: AWS_PROXY
+          Uri: !Sub
+            - arn:aws:WeddingDayTextsApi:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
+            - lambdaArn: !GetAtt CensorshipFunction.Arn
+        ResourceId: !GetAtt WeddingDayTextsApi.RootResourceId
+        RestApiId: !Ref WeddingDayTextsApi
+  ApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - ApiGatewayMethod
+    Properties:
+      RestApiId: !Ref WeddingDayTextsApi
+      StageName: dev
+  CensorshipFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../functions/censorship
+      Handler: index.handler
+      Runtime: nodejs8.10
+  ApiGatewayInvokeLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt
+        - CensorshipFunction
+        - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Join [
+        "", [
+          "arn:aws:execute-api:",
+          { "Ref": "AWS::Region" }, ":",
+          { "Ref": "AWS::AccountId" }, ":",
+          !Ref WeddingDayTextsApi, "/*/*/*"
+        ]
+      ]
+  CensorshipFunctionDeployment:
+    Type: AWS::Serverless::Function::Deployment
+      DependsOn:
+        - CensorshipFunction
+      Properties:
+        FunctionId: !GetAtt
+          - CensorshipFunction
+          - Arn
+        StageName: dev
+  RekognitionApi:
+    Type: 'AWS::Rekognition::StreamProcessor'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 10b76a58-07ce-4c4a-a228-cd7d126453b5
+  WeddingDayTextsBucket:
+    Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: !Sub 'wedding-day-texts-${WeddingDayTextsApi}'
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        LoggingConfiguration:
+          DestinationBucketName: !Ref LoggingBucket
+          LogFilePrefix: s3-access-logs
+        VersioningConfiguration:
+          Status: Enabled
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: 'AES256'
+  WeddingDayTextsBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: 2012-10-17
+          Statement:
+            - Sid: PolicyForCloudFrontPrivateContent
+              Effect: Allow
+              Principal:
+                CanonicalUser: !GetAtt CFOriginAccessIdentity.S3CanonicalUserId
+              Action: 's3:GetObject*'
+              Resource: !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref WeddingDayTextsBucket
+                  - /*
+        Bucket: !Ref WeddingDayTextsBucket
+  # The Amazon S3 bucket into which access logs from S3 (for the application) and CloudFront will be put
+  LoggingBucket:
+    #checkov:skip=CKV_AWS_18: "This bucket is private and only for storing logs"
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub 'react-cors-spa-${SimpleAPI}-logs'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      AccessControl: LogDeliveryWrite
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'AES256'
+    DeletionPolicy: Delete
+  # The Amazon CloudFront distribution exposing our Single Page Application
+  CFDistribution:
+    #checkov:skip=CKV_AWS_68: "For demo purposes and to reduce cost, no WAF is configured"
+    Type: 'AWS::CloudFront::Distribution'
+    DependsOn:
+      - CFOriginAccessIdentity
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt WeddingDayTextsBucket.RegionalDomainName
+            Id: myS3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CFOriginAccessIdentity}"
+        Enabled: 'true'
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          TargetOriginId: myS3Origin
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # CachingOptimized
+          OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf # CORS-S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+        PriceClass: PriceClass_All
+        Logging:
+          Bucket: !GetAtt LoggingBucket.RegionalDomainName
+          Prefix: 'cloudfront-access-logs'
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+          MinimumProtocolVersion: 'TLSv1.2_2021'
+    # The Amazon CloudFront origin access identity
+    CFOriginAccessIdentity:
+      Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+      DependsOn:
+        - WeddingDayTextsBucket
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: !Sub 'access-identity-wedding-day-texts-${WeddingDayTextsApi}'
+    RejectedTextsStorage:
+      Type: 'AWS::DynamoDB::GlobalTable'
+      Properties:
+        BillingMode: 'PAY_PER_REQUEST'
+        TableName: 'RejectedTexts'
+        AttributeDefinitions:
+          - AttributeName: Message
+            AttributeType: S
+          - AttributeName: Image
+            AttributeType: S
+      Metadata:
+        'AWS::CloudFormation::Designer':
+          id: 3e32139f-9ca8-4933-9d38-511bd7c36be5
+Outputs:
+  APIEndpoint:
+    Value: !Sub "https://${WeddingDayTextsApi}.execute-api.${AWS::Region}.amazonaws.com/v1/hello"
+  BucketName:
+    Value: !Sub "wedding-day-texts-${CFOriginAccessIdentity}"
