@@ -46,6 +46,12 @@ go thing for infrastructure, but I doubt i'll get out of the free tier for Decem
 - Started off an example React App distributed from an S3 Bucket Build
 - [React Home Page](https://reactjs.org/)
 
+### Material UI
+- way to keep components on the front end application looking similar
+- not taking a stand here, just what I know how to use already
+- easy to use theming for light and dark modes
+- [MUI Docs](https://mui.com/material-ui/getting-started/overview/)
+
 ## **Integrations**
 | Twilio      ||
 |-------------|--------------------------------------------|
