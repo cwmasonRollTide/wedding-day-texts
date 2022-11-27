@@ -5,9 +5,11 @@
   "email": "jguilloi@amazon.fr",
   "license": "MIT",
   "devDependencies": {
+    "@jest/globals": "^29.3.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "jest": "^27.5.1",
     "react-scripts": "^5.0.1"
   },
   "dependencies": {

@@ -2,20 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/functions/censorship/censorship.spec.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/censorship/index.handler" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/message-archiver/index.handler" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/message-archiver/message-archiver.spec.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/profanity-archiver/index.handler" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/profanity-archiver/profanity-archiver.spec.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.idea/.idea.client.dir/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.idea/.idea.client.dir/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.idea/.idea.client.dir/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.idea/.idea.client.dir/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/api/apiclient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.spec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.spec.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.spec.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/CODE_OF_CONDUCT.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/CONTRIBUTING.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/client/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/censorship.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/censorship/censorship.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +62,7 @@
       <updated>1669196414469</updated>
       <workItem from="1669196417234" duration="388000" />
       <workItem from="1669197902550" duration="3687000" />
-      <workItem from="1669348822345" duration="8944000" />
+      <workItem from="1669348822345" duration="24694000" />
     </task>
     <servers />
   </component>
