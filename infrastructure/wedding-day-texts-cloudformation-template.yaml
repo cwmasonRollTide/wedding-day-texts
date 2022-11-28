@@ -377,6 +377,157 @@ Resources:
       'AWS::CloudFormation::Designer':
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
         
+  #Rejected messages
+  ProfanityQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      DelaySeconds: 0
+      MaximumMessageSize: 262144
+      MessageRetentionPeriod: 1209600
+      QueueName: !Sub 'profanity-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
+      ReceiveMessageWaitTimeSeconds: 0
+      VisibilityTimeout: 60
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
+        
+  ProfanityArchiverFunctionRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: ProfanityQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                Resource: 'arn:aws:logs:*:*:*'
+        - PolicyName: allowSqs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:ReceiveMessage'
+                  - 'sqs:DeleteMessage'
+                  - 'sqs:GetQueueAttributes'
+                  - 'sqs:ChangeMessageVisibility'
+                Resource: !GetAtt
+                  - ProfanityQueue
+                  - Arn
+  ProfanityArchiverFunction:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: ProfanityArchiverFunctionRole
+    Properties:
+      Code:
+        S3Bucket: !Ref FunctionBucket
+        S3Key: "profanity-archiver-function.zip"
+        #        ZipFile: "../functions/profanity-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+      Handler: index.handler
+      Role: !GetAtt
+        - ProfanityArchiverFunctionRole
+        - Arn
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 512
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c4a86b2f-f11a-432c-9508-98b6c168642d
+  # Setup up the Safe Message Queue payloads to be processed by the MessageArchiverFunction
+  ProfanityArchiverFunctionEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    DependsOn:
+      - ProfanityQueue
+      - ProfanityArchiverFunction
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - ProfanityQueue
+        - Arn
+      FunctionName: !GetAtt
+        - ProfanityArchiverFunction
+        - Arn
+
+  ProfaneMessageNotificationFunctionRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: ProfanityQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                Resource: 'arn:aws:logs:*:*:*'
+        - PolicyName: allowSqs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:ReceiveMessage'
+                  - 'sqs:DeleteMessage'
+                  - 'sqs:GetQueueAttributes'
+                  - 'sqs:ChangeMessageVisibility'
+                Resource: !GetAtt
+                  - ProfanityQueue
+                  - Arn
+  ProfaneMessageNotificationFunction:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: ProfaneMessageNotificationFunctionRole
+    Properties:
+      Code:
+        S3Bucket: !Ref FunctionBucket
+        S3Key: "profane-message-notification-function.zip"
+        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+      Handler: index.handler
+      Role: !GetAtt
+        - ProfaneMessageNotificationFunctionRole
+        - Arn
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 512
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c4a86b2f-f11a-432c-9508-98b6c168642d
+        
+  ProfanityNotificationFunctionEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    DependsOn:
+      - ProfanityQueue
+      - ProfaneMessageNotificationFunction
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - ProfanityQueue
+        - Arn
+      FunctionName: !GetAtt
+        - ProfaneMessageNotificationFunction
+        - Arn
 #Metadata is so these components look pretty in the Cloudformation Designer
 Metadata:
   'AWS::CloudFormation::Designer':
