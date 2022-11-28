@@ -192,9 +192,9 @@ Resources:
     DependsOn: CensorshipFunctionRole
     Properties:
       Code:
-        S3Bucket: "https://functions-533435045308.s3-accesspoint.us-east-2.amazonaws.com/"
+        S3Bucket: "s3://arn:aws:s3:us-east-2:533435045308:accesspoint/functions"
         S3Key: "censorship-function.zip"
-        Pattern: "*"
+#        Pattern: "[.]*"
       Handler: index.handler
       Role: !GetAtt 
         - CensorshipFunctionRole
