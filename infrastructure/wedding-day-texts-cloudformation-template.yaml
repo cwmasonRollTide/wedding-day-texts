@@ -2,23 +2,26 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Wedding Day Texts Yaml Config
 Parameters:
-  FunctionBucketName:
+  FunctionBucket:
     Type: String
     Description: where are the lambda functions
   StageName:
     Type: String
     Description: Which stage are we deploying to?
+  AwsRegion:
+    Type: String
+    Description: Region we are deploying this template in
 Outputs:
   ApiEndpoint:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - 'arn:aws:apigateway:'
-        - !Ref 'AWS::Region'
-        - ':sqs:path/'
+      - - ':sqs:path/'
         - !Ref 'AWS::AccountId'
         - /
         - !Ref WeddingDayTextsIncomingMessageQueue
+        - /
+        - !Ref AwsRegion
         - /
         - !Ref StageName
 Resources:
@@ -31,7 +34,7 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
-  # That Queue for incoming messages has a policy to trigger a lambda function. So when our resources are ready,
+  # That Queue for incoming messages has a policy to trigger at least one lambda function. So when our resources are ready,
   # messages in this queue are handled by our censorship function
   WeddingDayTextsIncomingMessageQueue:
     Type: 'AWS::SQS::Queue'
@@ -39,7 +42,7 @@ Resources:
       DelaySeconds: 0
       MaximumMessageSize: 262144
       MessageRetentionPeriod: 1209600
-      QueueName: !Sub 'wedding-day-texts-incoming-queue-${AWS::Region}-${WeddingDayTextsApi}-${StageName}'
+      QueueName: !Sub 'wedding-day-texts-incoming-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
       ReceiveMessageWaitTimeSeconds: 0
       VisibilityTimeout: 60
     Metadata:
@@ -59,7 +62,7 @@ Resources:
               Service:
                 - apigateway.amazonaws.com
         Version: 2012-10-17
-      Path: /
+      Path: /messageincoming
       Policies:
         - PolicyDocument:
             Statement:
@@ -110,20 +113,25 @@ Resources:
         IntegrationHttpMethod: GET
         IntegrationResponses:
           - StatusCode: '200'
-        PassthroughBehavior: NEVER
+        PassthroughBehavior: WHEN_NO_MATCH
         RequestParameters:
-          integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
+          integration.request.header.Content-Type: '''application-x-www-form-urlencoded'''
         RequestTemplates:
-          application/json: Action=SendMessage&MessageBody=$input.body
+          application/json: 
+            - Action: SendMessage
+            - fromNumber: $input.params('From')
+            - messageBody: $input.params('Body')
+            - image: $input.params('MediaUrl0')
+            - numMedia: $input.params('NumMedia')
         Type: AWS
         Uri: !Join
           - ''
-          - - 'arn:aws:apigateway:'
-            - !Ref 'AWS::Region'
-            - ':sqs:path/'
+          - - ':sqs:path/'
             - !Ref 'AWS::AccountId'
             - /
             - !Ref WeddingDayTextsIncomingMessageQueue
+            - /
+            - !Ref AwsRegion
             - /
             - !Ref StageName
       MethodResponses:
@@ -201,7 +209,7 @@ Resources:
     DependsOn: CensorshipFunctionRole
     Properties:
       Code:
-        S3Bucket: !Ref FunctionBucketName
+        S3Bucket: !Ref FunctionBucket
         S3Key: "censorship-function.zip"
         #        ZipFile: "../functions/censorship" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
       Handler: index.handler
@@ -240,7 +248,7 @@ Resources:
       DelaySeconds: 0
       MaximumMessageSize: 262144
       MessageRetentionPeriod: 1209600
-      QueueName: !Sub 'safe-message-queue-${AWS::Region}-${WeddingDayTextsApi}-${StageName}'
+      QueueName: !Sub 'safe-message-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
       ReceiveMessageWaitTimeSeconds: 0
       VisibilityTimeout: 60
     Metadata:
@@ -286,7 +294,7 @@ Resources:
     DependsOn: MessageArchiverFunctionRole
     Properties:
       Code:
-        S3Bucket: !Ref FunctionBucketName
+        S3Bucket: !Ref FunctionBucket
         S3Key: "message-archiver-function.zip"
         #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
       Handler: index.handler
@@ -355,8 +363,8 @@ Resources:
     DependsOn: MessageSafeNotificationFunctionRole
     Properties:
       Code:
-        S3Bucket: !Ref FunctionBucketName
-        S3Key: "message-archiver-function.zip"
+        S3Bucket: !Ref FunctionBucket
+        S3Key: "safe-message-notification-function.zip"
         #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
       Handler: index.handler
       Role: !GetAtt
@@ -471,3 +479,12 @@ Metadata:
       embeds: []
       dependson:
         - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
+          
+          # Infrastructure (Masons Over Time)
+# Like the brick layers of old
+# Our namesakes' steady hands were true,
+# So that is surely what we'll do,
+# Is lay a brick again, now two.
+# In fact as long as I'm with you,
+# I'll keep on working on these tasks.
+# Progressing every year it's like we're building paths.
