@@ -2,3 +2,17 @@
 .build-artifacts/*
 .node_modules/*
 */node_modules/*
+./functions/message-archiver/node_modules/*
+./functions/profanity-archiver/node_modules/*
+./functions/queries/censorship/node_modules/*
+./functions/notifications/safe-message-notification/node_modules/*
+./functions/notifications/profane-message-notification/node_modules/*
+functions/commands/message-archiver/node_modules/
+functions/commands/message-archiver/package-lock.json
+functions/commands/profanity-archiver/node_modules/
+functions/commands/profanity-archiver/package-lock.json
+functions/notifications/profane-message-notification/node_modules/
+functions/notifications/profane-message-notification/package-lock.json
+functions/notifications/safe-message-notification/node_modules/
+functions/notifications/safe-message-notification/package-lock.json
+functions/queries/censorship/node_modules/

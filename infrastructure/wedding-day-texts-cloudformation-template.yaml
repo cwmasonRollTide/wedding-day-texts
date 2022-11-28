@@ -1,0 +1,473 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Wedding Day Texts Yaml Config
+Parameters:
+  FunctionBucketName:
+    Type: String
+    Description: where are the lambda functions
+  StageName:
+    Type: String
+    Description: Which stage are we deploying to?
+Outputs:
+  ApiEndpoint:
+    Description: Endpoint for this stage of the api
+    Value: !Join
+      - ''
+      - - 'arn:aws:apigateway:'
+        - !Ref 'AWS::Region'
+        - ':sqs:path/'
+        - !Ref 'AWS::AccountId'
+        - /
+        - !Ref WeddingDayTextsIncomingMessageQueue
+        - /
+        - !Ref StageName
+Resources:
+  # ApiGateway is set up to go directly from encoded get request with media content into a Queue for incoming messages
+  WeddingDayTextsApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Description: API Endpoint to receive JSON payloads and queue in SQS
+      Name: WeddingDayTextsApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
+  # That Queue for incoming messages has a policy to trigger a lambda function. So when our resources are ready,
+  # messages in this queue are handled by our censorship function
+  WeddingDayTextsIncomingMessageQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      DelaySeconds: 0
+      MaximumMessageSize: 262144
+      MessageRetentionPeriod: 1209600
+      QueueName: !Sub 'wedding-day-texts-incoming-queue-${AWS::Region}-${WeddingDayTextsApi}-${StageName}'
+      ReceiveMessageWaitTimeSeconds: 0
+      VisibilityTimeout: 60
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
+  
+  WeddingDayTextsApiRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: WeddingDayTextsIncomingMessageQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+        Version: 2012-10-17
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action: 'sqs:SendMessage'
+                Effect: Allow
+                Resource: !GetAtt WeddingDayTextsIncomingMessageQueue.Arn
+              - Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Effect: Allow
+                Resource: '*'
+            Version: 2012-10-17
+          PolicyName: apig-sqs-send-msg-policy
+      RoleName: apig-sqs-send-msg-role
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: be465e07-9841-4066-8e8d-54fdda15fe69
+        
+  PolicySQS:
+    Type: 'AWS::SQS::QueuePolicy'
+    DependsOn: WeddingDayTextsIncomingMessageQueue
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: 'SQS:*'
+            Effect: Allow
+            Principal: '*'
+            Resource: !GetAtt WeddingDayTextsIncomingMessageQueue.Arn
+            Sid: Sid1517269801413
+        Version: 2012-10-17
+      Queues:
+        - !Ref WeddingDayTextsIncomingMessageQueue
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fcca257d-2064-4dd3-8615-cc5b106ca436
+  GetMethod:
+    Type: 'AWS::ApiGateway::Method'
+    DependsOn: 
+      - WeddingDayTextsIncomingMessageQueue
+      - WeddingDayTextsApiRole
+      - WeddingDayTextsApi
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Credentials: !GetAtt WeddingDayTextsApiRole.Arn
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+          - StatusCode: '200'
+        PassthroughBehavior: NEVER
+        RequestParameters:
+          integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
+        RequestTemplates:
+          application/json: Action=SendMessage&MessageBody=$input.body
+        Type: AWS
+        Uri: !Join
+          - ''
+          - - 'arn:aws:apigateway:'
+            - !Ref 'AWS::Region'
+            - ':sqs:path/'
+            - !Ref 'AWS::AccountId'
+            - /
+            - !Ref WeddingDayTextsIncomingMessageQueue
+            - /
+            - !Ref StageName
+      MethodResponses:
+        - ResponseModels:
+            application/json: Empty
+          StatusCode: '200'
+      ResourceId: !Ref 'enqueueResource'
+      RestApiId: !Ref WeddingDayTextsApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
+  enqueueResource:
+    Type: 'AWS::ApiGateway::Resource'
+    DependsOn: WeddingDayTextsApi
+    Properties:
+      ParentId: !GetAtt
+        - WeddingDayTextsApi
+        - RootResourceId
+      PathPart: messageincoming
+      RestApiId: !Ref WeddingDayTextsApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 93cd0126-a66f-4fa5-985a-7981f135ff2a
+  gatewayDeployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - GetMethod
+      - WeddingDayTextsApi
+      - WeddingDayTextsIncomingMessageQueue
+    Properties:
+      RestApiId: !Ref WeddingDayTextsApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 917daea1-6e43-4918-b83d-24f8474ece98
+  CensorshipFunctionRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: WeddingDayTextsIncomingMessageQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                Resource: 'arn:aws:logs:*:*:*'
+        - PolicyName: allowSqs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:ReceiveMessage'
+                  - 'sqs:DeleteMessage'
+                  - 'sqs:GetQueueAttributes'
+                  - 'sqs:ChangeMessageVisibility'
+                Resource: !GetAtt
+                  - WeddingDayTextsIncomingMessageQueue
+                  - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 999ab961-40b8-44a7-afc0-4f90a54b2d00
+  CensorshipFunction:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: CensorshipFunctionRole
+    Properties:
+      Code:
+        S3Bucket: !Ref FunctionBucketName
+        S3Key: "censorship-function.zip"
+        #        ZipFile: "../functions/censorship" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+      Handler: index.handler
+      Role: !GetAtt 
+        - CensorshipFunctionRole
+        - Arn
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 512
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c4a86b2f-f11a-432c-9508-98b6c168642d
+  CensorshipFunctionEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    DependsOn:
+      - WeddingDayTextsIncomingMessageQueue
+      - CensorshipFunction
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt 
+        - WeddingDayTextsIncomingMessageQueue
+        - Arn
+      FunctionName: !GetAtt 
+        - CensorshipFunction
+        - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
+        
+  # Our censorship function will either enqueue a payload into "SafeMessageQueue" or "ProfanityQueue" - depending
+  # on the result of the API call to the Rekognition service
+  SafeMessageQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      DelaySeconds: 0
+      MaximumMessageSize: 262144
+      MessageRetentionPeriod: 1209600
+      QueueName: !Sub 'safe-message-queue-${AWS::Region}-${WeddingDayTextsApi}-${StageName}'
+      ReceiveMessageWaitTimeSeconds: 0
+      VisibilityTimeout: 60
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
+  MessageArchiverFunctionRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: SafeMessageQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                Resource: 'arn:aws:logs:*:*:*'
+        - PolicyName: allowSqs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:ReceiveMessage'
+                  - 'sqs:DeleteMessage'
+                  - 'sqs:GetQueueAttributes'
+                  - 'sqs:ChangeMessageVisibility'
+                Resource: !GetAtt
+                  - SafeMessageQueue
+                  - Arn
+  MessageArchiverFunction:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: MessageArchiverFunctionRole
+    Properties:
+      Code:
+        S3Bucket: !Ref FunctionBucketName
+        S3Key: "message-archiver-function.zip"
+        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+      Handler: index.handler
+      Role: !GetAtt
+        - MessageArchiverFunctionRole
+        - Arn
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 512
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c4a86b2f-f11a-432c-9508-98b6c168642d
+  # Setup up the Safe Message Queue payloads to be processed by the MessageArchiverFunction
+  MessageArchiverFunctionEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    DependsOn:
+      - SafeMessageQueue
+      - MessageArchiverFunction
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - SafeMessageQueue
+        - Arn
+      FunctionName: !GetAtt
+        - MessageArchiverFunction
+        - Arn
+  
+  MessageSafeNotificationFunctionRole:
+    Type: 'AWS::IAM::Role'
+    DependsOn: SafeMessageQueue
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: allowLambdaLogs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:*'
+                Resource: 'arn:aws:logs:*:*:*'
+        - PolicyName: allowSqs
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:ReceiveMessage'
+                  - 'sqs:DeleteMessage'
+                  - 'sqs:GetQueueAttributes'
+                  - 'sqs:ChangeMessageVisibility'
+                Resource: !GetAtt
+                  - SafeMessageQueue
+                  - Arn
+  MessageSafeNotificationFunction:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: MessageSafeNotificationFunctionRole
+    Properties:
+      Code:
+        S3Bucket: !Ref FunctionBucketName
+        S3Key: "message-archiver-function.zip"
+        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+      Handler: index.handler
+      Role: !GetAtt
+        - MessageSafeNotificationFunctionRole
+        - Arn
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 512
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c4a86b2f-f11a-432c-9508-98b6c168642d
+        
+#Metadata is so these components look pretty in the Cloudformation Designer
+Metadata:
+  'AWS::CloudFormation::Designer':
+    14db55f5-58bb-4e2d-a023-9fc978ae0583:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 320
+        'y': 430
+      z: 1
+      embeds: []
+    999ab961-40b8-44a7-afc0-4f90a54b2d00:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 180
+        'y': 500
+      z: 1
+      embeds: []
+    c4a86b2f-f11a-432c-9508-98b6c168642d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 20
+        'y': 430
+      z: 1
+      embeds: []
+    f9b5332f-d4c1-4150-abcc-c4f4a7729ec4:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 180
+        'y': 430
+      z: 1
+      embeds: []
+    fcca257d-2064-4dd3-8615-cc5b106ca436:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 500
+        'y': 300
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - 14db55f5-58bb-4e2d-a023-9fc978ae0583
+    be465e07-9841-4066-8e8d-54fdda15fe69:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 320
+        'y': 330
+      z: 1
+      embeds: []
+    3c6cd6ea-82bd-4fb5-89b6-0b851b126136:
+      size:
+        width: 150
+        height: 150
+      position:
+        x: 360
+        'y': 90
+      z: 1
+      embeds: []
+    93cd0126-a66f-4fa5-985a-7981f135ff2a:
+      size:
+        width: 240
+        height: 240
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds:
+        - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
+    6b8f04f1-26ea-43b6-8cb9-d45164f7b981:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 90
+        'y': 150
+      z: 2
+      parent: 93cd0126-a66f-4fa5-985a-7981f135ff2a
+      embeds: []
+      iscontainedinside:
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        - 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
+    917daea1-6e43-4918-b83d-24f8474ece98:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 310
+        'y': 10
+      z: 1
+      embeds: []
+      dependson:
+        - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981

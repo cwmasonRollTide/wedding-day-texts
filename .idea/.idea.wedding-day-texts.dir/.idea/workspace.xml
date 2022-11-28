@@ -2,9 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/functions/commands/message-archiver/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/notifications/profane-message-notification/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/notifications/safe-message-notification/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/censorship.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/censorship.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/message-archiver/index.handler" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/message-archiver/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/message-archiver/message-archiver.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/message-archiver/message-archiver.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/profanity-archiver/index.handler" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/profanity-archiver/profanity-archiver.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/profanity-archiver.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-1.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-2.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-3.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,19 +53,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "18.12.1",
-    "javascript.nodejs.core.library.typings.version": "18.11.9",
-    "nodejs.jest.jest_package": "C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.12.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.11.9&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -147,7 +164,8 @@
       <workItem from="1669196417234" duration="388000" />
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
-      <workItem from="1669576236861" duration="42848000" />
+      <workItem from="1669576236861" duration="47686000" />
+      <workItem from="1669657873822" duration="982000" />
     </task>
     <servers />
   </component>
@@ -176,31 +194,26 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/components/header/header.js</url>
           <line>11</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/ListSubheader/ListSubheader.js</url>
           <line>67</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/Paper/Paper.js</url>
           <line>51</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
           <line>79</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
           <line>3</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
