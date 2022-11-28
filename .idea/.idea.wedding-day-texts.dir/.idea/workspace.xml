@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/functions/commands/message-archiver/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/notifications/profane-message-notification/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/notifications/safe-message-notification/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/censorship/censorship.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/censorship.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/censorship/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/censorship/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/censorship/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/message-archiver/index.handler" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/message-archiver/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/message-archiver/message-archiver.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/message-archiver/message-archiver.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/profanity-archiver/index.handler" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/profanity-archiver/profanity-archiver.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/profanity-archiver/profanity-archiver.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-1.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-2.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-3.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +147,7 @@
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
-      <workItem from="1669657873822" duration="982000" />
+      <workItem from="1669657873822" duration="2049000" />
     </task>
     <servers />
   </component>
