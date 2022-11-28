@@ -3,6 +3,23 @@
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/WeddingDayTexts.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/header.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/header.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/imagepost/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/testutils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/testutils/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-stack-script.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +74,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Jest.Footer tests">
+  <component name="RunManager" selected="Jest.Text Post tests.Should render text post">
     <configuration name="Footer tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -98,33 +115,40 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="footer.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="Text Post tests.Should render text post" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
       <working-dir value="$PROJECT_DIR$/client" />
       <envs />
-      <scope-kind value="TEST_FILE" />
-      <test-file value="$PROJECT_DIR$/client/src/components/footer/footer.test.js" />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" />
+      <test-names>
+        <test-name value="Text Post tests" />
+        <test-name value="Should render text post" />
+      </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="header.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="WeddingDayTexts tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
       <working-dir value="$PROJECT_DIR$/client" />
       <envs />
-      <scope-kind value="TEST_FILE" />
-      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/WeddingDayTexts.test.js" />
+      <test-names>
+        <test-name value="WeddingDayTexts tests" />
+      </test-names>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.Text Post tests.Should render text post" />
+        <item itemvalue="Jest.WeddingDayTexts tests" />
         <item itemvalue="Jest.Header Tests.Should render the header" />
-        <item itemvalue="Jest.Footer tests" />
-        <item itemvalue="Jest.footer.test.js" />
-        <item itemvalue="Jest.header.test.js" />
         <item itemvalue="Jest.Header Tests" />
+        <item itemvalue="Jest.Footer tests" />
       </list>
     </recent_temporary>
   </component>
@@ -139,7 +163,7 @@
       <workItem from="1669196417234" duration="388000" />
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
-      <workItem from="1669576236861" duration="33945000" />
+      <workItem from="1669576236861" duration="37906000" />
     </task>
     <servers />
   </component>
@@ -185,9 +209,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
-          <line>56</line>
+          <line>79</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
+          <line>3</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

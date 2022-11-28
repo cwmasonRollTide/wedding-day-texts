@@ -2,10 +2,26 @@ import React from 'react';
 import {render} from "@testing-library/react";
 import {ThemeProvider} from "@mui/material/styles";
 const mockTheme = {
+    transitions: {
+        create: jest.fn(),
+        duration: {
+            short: '1',
+            medium: '2',
+            long: '3'
+        }
+    },
+    spacing: jest.fn(),
+    breakpoints: {
+        up: jest.fn()
+    },
+    mixins: {
+        toolbar: ''
+    },
     shadows: Array(10000).fill('test'),
     palette: {
         colorScheme: {
-            backdropGrayscale: 'test'
+            backdropGrayscale: 'test',
+            color: 'test'
         },
         text: {
             secondary: 'black'
@@ -20,6 +36,9 @@ const mockTheme = {
         gray: Array(10000).fill('test'),
         grey: Array(10000).fill('test')
     },
+    shape: {
+        borderRadius: '1'
+    },
     typography: {
         fontFamily: 'none',
         fontWeightMedium: 'bold',
@@ -28,7 +47,8 @@ const mockTheme = {
     vars: {
         palette: {
             colorScheme: {
-                backdropGrayscale: 'test'
+                backdropGrayscale: 'test',
+                color: 'test'
             },
             text: {
                 secondary: 'black'
@@ -47,15 +67,18 @@ const mockTheme = {
                 darkBg: ''
             }
         },
+        shape: {
+            borderRadius: '1'
+        },
         zIndex: {
             appBar: 1
         }
     }
 };
 
-const TestUtils = (props) => {
+export const TestUtils = (props) => {
     return (
-        <ThemeProvider theme={props.theme}>
+        <ThemeProvider theme={props.theme ?? mockTheme}>
             {props.children}
         </ThemeProvider>
     );

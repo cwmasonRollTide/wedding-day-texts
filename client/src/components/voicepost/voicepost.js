@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-
-const VoicePost = (message) => {
-    
-};
-
-VoicePost.PropTypes = {
-    message: PropTypes.object
-}
-
-export default VoicePost;
+// import PropTypes from 'prop-types';
+//
+// const VoicePost = (props) => {
+//    
+// };
+//
+// VoicePost.PropTypes = {
+//     message: PropTypes.object
+// }
+//
+// export default VoicePost;

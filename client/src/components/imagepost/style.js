@@ -5,7 +5,8 @@ export const useStyles = makeStyles(theme => ({
         
     },
     Text: {
-        
+        textAlign: 'left',
+        textIndent: '1REM'
     },
     ImagePost: {
         margin: theme.spacing(0.25),

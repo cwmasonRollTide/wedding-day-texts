@@ -1,29 +1,22 @@
 import React from 'react';
 import {useStyles} from "./style";
-import {PropTypes} from "@mui/material";
 
-const ImagePost = (message, props) => {
+const ImagePost = (props) => {
     const classes = useStyles();
-    const { image, messageText } = message;
+    const { image, messageText } = props.message;
     return (
         <div className={classes.ImagePost} {...props}>
             <img 
                 src={image}
                 className={classes.Image}
                 alt={'test'}
+                role="image"
             />
-            <body className={classes.Text}>
+            <p role="message-text" className={classes.Text}>
                 {messageText}
-            </body>
+            </p>
         </div>
     );
-};
-
-ImagePost.PropTypes = {
-    message: PropTypes.objectOf({
-      "image": PropTypes.string,
-      "messageText": PropTypes.string
-    })
 };
 
 export default ImagePost;

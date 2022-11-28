@@ -1,4 +1,3 @@
-import './WeddingDayTexts.css';
 import S3Client from "./api/s3client";
 import {useEffect, useState} from "react";
 import Header from "./components/header/header";
@@ -17,7 +16,6 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 const WeddingDayTexts = () => {
     const theme = useTheme();
-    const classes = useStyles();
     const colorMode = React.useContext(ColorModeContext);
     const [messages, setMessages] = useState([]);
     
@@ -29,7 +27,7 @@ const WeddingDayTexts = () => {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <div className={classes.WeddingDayTexts}>
+                <div role="App">
                     <Header />
                     <MessageList messages={messages} />
                     <Footer />

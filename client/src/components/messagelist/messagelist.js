@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from "./style";
-import {PropTypes} from "@mui/material";
+import PropTypes from "prop-types";
 
 export const MessageList = (messages, props) => {
     const classes = useStyles();
@@ -32,7 +32,7 @@ export const MessageList = (messages, props) => {
 }
 
 MessageList.PropTypes = {
-    messages: PropTypes.Array
+    messages: PropTypes.array
 };
 
 export default MessageList;

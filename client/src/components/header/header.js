@@ -12,25 +12,23 @@ const MasonWeddingHeader = (props) => {
     const classes = useStyles();
     return (
         <header role="header" className={classes.MasonWeddingHeader} {...props}>
-            <Box sx={{display: 'flex'}}>
-                <AppBar component="nav">
-                    <Toolbar>
-                        <Typography
-                            variant="h6"
-                            component="div"
-                            sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
-                        >
-                            Wedding Day Texts
-                        </Typography>
-                        <Box sx={{display: {xs: 'none', sm: 'block'}}}>
-                            {navItems.map((item) => (
-                                <Button key={item} sx={{color: '#fff'}}>
-                                    {item}
-                                </Button>
-                            ))}
-                        </Box>
-                    </Toolbar>
-                </AppBar>
+            <Box style={{display: 'flex'}}>
+                <Toolbar>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        style={{'flexGrow': 1}}
+                    >
+                        Wedding Day Texts
+                    </Typography>
+                    <Box>
+                        {navItems.map((item) => (
+                            <Button key={item} sx={{color: '#fff'}}>
+                                {item}
+                            </Button>
+                        ))}
+                    </Box>
+                </Toolbar>
             </Box>
         </header>
     );
