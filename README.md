@@ -1,6 +1,5 @@
 # **Wedding Day Texts Application**
 
-
 ## **General Idea**
 - I always thought it would be a lot of fun to develop something for the wedding. I wish I had come up with what
 I wanted to do with this a lot earlier and not three weeks before, but might as well make a hackathon weekend out
@@ -19,6 +18,17 @@ of just for the buzzwords
 go thing for infrastructure, but I doubt i'll get out of the free tier for December 10th.
 - **I love you, Anna :)** _Can't wait to marry you and go halvies on that baby_
 - [Architecture](./infrastructure/WeddingDayTexts.drawio.pdf)
+
+## **Repo Structure**
+- client
+  - Front-end React application to be deployed in an S3 bucket with Cloudfront distribution
+  to view the pictures messaged to the application
+- functions
+  - Lambda functions written in nodeJs necessary to check the  image for profanity, then archive 
+  the image in an s3 bucket if it is not profane, and discarded into a dynamoDB table if it is.
+- infrastructure
+  - Home of the cloudformation yaml, and the config files for each environment. For now, probably just 
+  one
 
 ## **Tech Stack**
 
@@ -80,7 +90,12 @@ go thing for infrastructure, but I doubt i'll get out of the free tier for Decem
 | Description | Command line emulator: can have multiple directories open in a single pane - configurable terminal emulator|
 
 
-### _Thought of you today,_
+## Errands
+### _Thought of you today_
 ### _As I went about these tasks_
-### _That I do to bring you joy_
-### _I love that smile when you come back_
+### _That I do to bring you joy,_
+### _I love that smile when you come back._
+### _If need be, I will work on,_
+### _Into the night if that's required._
+### _I'd do anything for you,_
+### _You are so worth it to be tired._

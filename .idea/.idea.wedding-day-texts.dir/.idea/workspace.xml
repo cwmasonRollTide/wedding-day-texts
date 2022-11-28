@@ -2,32 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/header/header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/header/header.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/api/storageclient.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/imagepost/style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/messagelist/style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/textpost/styles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/voicepost/style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/testutils/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/censorship/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infrastructure/fresh-attempt-starting-with-queue.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/LICENSE" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/api/apiclient.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3Client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3Client.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/WeddingDayTexts.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/s3Client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/s3Client.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/footer.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/header.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/header.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/storageclient.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/censorship.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/censorship/censorship.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/censorship/index.handler" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/cloud-formation-generated-yaml.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-text-deployment.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
@@ -37,6 +61,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/package-lock.json" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -45,15 +72,98 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "18.12.1",
+    "javascript.nodejs.core.library.typings.version": "18.11.9",
+    "nodejs.jest.jest_package": "C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts",
+    "nodejs_package_manager_path": "yarn",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.rcb.reactComponents" value="false" />
+        <entry key="com.haulmont.rcb.reactInspector" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Jest.Footer tests">
+    <configuration name="Footer tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/footer/footer.test.js" />
+      <test-names>
+        <test-name value="Footer tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Header Tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <test-names>
+        <test-name value="Header Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Header Tests.Should render the header" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <test-names>
+        <test-name value="Header Tests" />
+        <test-name value="Should render the header" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="footer.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/footer/footer.test.js" />
+      <method v="2" />
+    </configuration>
+    <configuration name="header.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Header Tests.Should render the header" />
+        <item itemvalue="Jest.Footer tests" />
+        <item itemvalue="Jest.footer.test.js" />
+        <item itemvalue="Jest.header.test.js" />
+        <item itemvalue="Jest.Header Tests" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -65,6 +175,7 @@
       <workItem from="1669196417234" duration="388000" />
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
+      <workItem from="1669576236861" duration="26565000" />
     </task>
     <servers />
   </component>
@@ -86,5 +197,35 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/header/header.js</url>
+          <line>11</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/ListSubheader/ListSubheader.js</url>
+          <line>67</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/Paper/Paper.js</url>
+          <line>51</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
+          <line>56</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

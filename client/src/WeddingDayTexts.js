@@ -1,34 +1,42 @@
-import logo from './logo.svg';
-import logoS3 from './logoS3.png';
-import logoCF from './logoCloudFront.png';
 import './WeddingDayTexts.css';
-import { useFetch } from "react-async"
+import S3Client from "./api/s3client";
+import {useEffect, useState} from "react";
+import Header from "./components/header/header";
+import Footer from "./components/footer/footer";
+import MessageList from "./components/messagelist/messagelist";
+const s3Bucket = new S3Client(process?.env?.AWS_REGION ?? "us-east-1");
+import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import {useStyles} from "./style";
 
-const APIEndPoint = 's3 endpoint?';
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
-const WeddingDayTexts = () => (
-    <div className="App">
-        <header className="App-header">
-          {APIEndPoint.startsWith('http') &&
-            <APIResult />
-          }
-          <img src={logo} className="App-MainLogo" alt="logo" />
-        </header>
-        <p>This react-based application is hosted in an S3 bucket exposed through a CloudFront distribution</p>
-        <div className="logos">
-            <img src={logoS3} className="App-logoR2L" alt="logo S3" />
-            <img src={logoCF} className="App-logoL2R" alt="logo CloudFront" />
-        </div>
-    </div>
-);
+const WeddingDayTexts = () => {
+    const theme = useTheme();
+    const classes = useStyles();
+    const colorMode = React.useContext(ColorModeContext);
+    const [messages, setMessages] = useState([]);
+    
+    useEffect(async () => {
+        const messages = await s3Bucket.getMessages();
+        setMessages(messages);
+    }, [])
 
-const APIResult = () => {
-  const { data, error } = useFetch(APIEndPoint, {
-    headers: { accept: "application/json" },
-  })
-  if (error) return <p>{error.message}</p>
-  if (data) return <p>{data.message}</p>
-  return null
+    return (
+        <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+                <div className={classes.WeddingDayTexts}>
+                    <Header />
+                    <MessageList messages={messages} />
+                    <Footer />
+                </div>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
+    );
 }
 
 export default WeddingDayTexts;

@@ -45,7 +45,7 @@ Resources:
     Properties:
       CodeUri: ../functions/censorship
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs14.17
   ApiGatewayInvokeLambdaPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
