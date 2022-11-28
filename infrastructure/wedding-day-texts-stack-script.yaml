@@ -34,7 +34,7 @@ Resources:
       MessageRetentionPeriod: 1209600
       QueueName: !Sub 'wedding-day-texts-incoming-queue-${WeddingDayTextsApi}'
       ReceiveMessageWaitTimeSeconds: 0
-      VisibilityTimeout: 30
+      VisibilityTimeout: 60
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
@@ -192,14 +192,15 @@ Resources:
     DependsOn: CensorshipFunctionRole
     Properties:
       Code:
-        S3Bucket: "arn:aws:s3:us-east-2:533435045308:accesspoint/functions/"
+        S3Bucket: "functions-test-s3-bucket"
         S3Key: "censorship-function.zip"
-#        Pattern: "[.]*"
+        #        ZipFile: "../functions/censorship"            
+      #        Pattern: "[.]*"
       Handler: index.handler
       Role: !GetAtt 
         - CensorshipFunctionRole
         - Arn
-      Runtime: nodejs14.17
+      Runtime: nodejs14.x
       Timeout: 60
       MemorySize: 512
     Metadata:
