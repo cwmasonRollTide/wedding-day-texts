@@ -2,32 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/header/header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/header/header.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/scrollinglist/scrollinglist.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/WeddingDayTexts.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/api/apiclient.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3Client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/imagepost/imagepost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3Client.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/voicepost/voicepost.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
@@ -36,6 +23,9 @@
         <option name="url" value="https://github.com/cwmasonRollTide/wedding-day-texts.git" />
       </UrlAndAccount>
     </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -50,10 +40,101 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.12.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.11.9&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.rcb.reactComponents" value="false" />
+        <entry key="com.haulmont.rcb.reactInspector" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Jest.Text Post tests.Should render text post">
+    <configuration name="Footer tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/footer/footer.test.js" />
+      <test-names>
+        <test-name value="Footer tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Header Tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <test-names>
+        <test-name value="Header Tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Header Tests.Should render the header" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/client/src/components/header/header.test.js" />
+      <test-names>
+        <test-name value="Header Tests" />
+        <test-name value="Should render the header" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Text Post tests.Should render text post" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/client/src/components/textpost/textpost.test.js" />
+      <test-names>
+        <test-name value="Text Post tests" />
+        <test-name value="Should render text post" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="WeddingDayTexts tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
+      <working-dir value="$PROJECT_DIR$/client" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/client/src/WeddingDayTexts.test.js" />
+      <test-names>
+        <test-name value="WeddingDayTexts tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Text Post tests.Should render text post" />
+        <item itemvalue="Jest.WeddingDayTexts tests" />
+        <item itemvalue="Jest.Header Tests.Should render the header" />
+        <item itemvalue="Jest.Header Tests" />
+        <item itemvalue="Jest.Footer tests" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -65,6 +146,8 @@
       <workItem from="1669196417234" duration="388000" />
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
+      <workItem from="1669576236861" duration="47686000" />
+      <workItem from="1669657873822" duration="8852000" />
     </task>
     <servers />
   </component>
@@ -86,5 +169,36 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/header/header.js</url>
+          <line>11</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/ListSubheader/ListSubheader.js</url>
+          <line>67</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/node_modules/@mui/material/Paper/Paper.js</url>
+          <line>51</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
+          <line>79</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/testutils/index.js</url>
+          <line>3</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,0 +1,182 @@
+Resources:
+  PIAT4SG5T:
+    Type: 'AWS::Pinpoint::InAppTemplate'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 8a2888fa-e9d7-4ebc-83d0-b34df6501528
+  SNST3LB1J:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f2e5b66d-cf7e-46ae-ae39-25ed81251fba
+  LF1R1RB:
+    Type: 'AWS::Lambda::Function'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e154ed89-ccbc-4cac-8278-437f84cb399d
+  RSP2PKFK:
+    Type: 'AWS::Rekognition::StreamProcessor'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: bea76500-e0e4-4ded-ba43-176ac4202257
+  CWD22MJ8:
+    Type: 'AWS::CloudWatch::Dashboard'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 2ab3f59d-7ae0-4ba7-9d74-7306191b7d1e
+  CTT52QID:
+    Type: 'AWS::CloudTrail::Trail'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c2d9f5cb-5c11-479b-8018-a5ec2ee2632a
+  DDBGT1AKN4:
+    Type: 'AWS::DynamoDB::GlobalTable'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 165aea7c-4cc9-4637-848b-721920aba935
+  LF4FF74:
+    Type: 'AWS::Lambda::Function'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fc6c4d5a-2a68-483c-a24e-36d3013c3cf6
+  S3B522FV:
+    Type: 'AWS::S3::Bucket'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 1f57c3be-2966-4525-9cfb-1ea1e1bb9c90
+  SNST31DKU:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 837568bb-cc65-45a2-8b36-0972dfd03925
+    DependsOn:
+      - SNSTP40F4H
+  R53DNSS2GJ9Y:
+    Type: 'AWS::Route53::DNSSEC'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fac81ca7-2764-4a3a-8193-e8eaf2e9f5b6
+  R53HC13FZR:
+    Type: 'AWS::Route53::HealthCheck'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: b0cec303-6b59-4240-b9d3-b328fc161bee
+    DependsOn:
+      - R53DNSS2GJ9Y
+  R53RSG35HPR:
+    Type: 'AWS::Route53::RecordSetGroup'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e5f7f72e-bc25-46ef-80e9-c1ac2834c325
+    DependsOn:
+      - R53DNSS2GJ9Y
+  IAMSC2ISQZ:
+    Type: 'AWS::IAM::ServerCertificate'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 533b8afc-e311-4b21-92b0-c8ebec201a41
+  AGAU4MH:
+    Type: 'AWS::ApiGateway::Authorizer'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 0c2daa85-25b1-4257-a217-222c967379f2
+  SNST1CV9:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f0ddfd7d-269f-4089-962e-b4e6c35b30d2
+  LF1KOOM:
+    Type: 'AWS::Lambda::Function'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f1b05abc-c31a-421c-bfcf-1ed7ea48f6fc
+    DependsOn:
+      - SNST1CV9
+  SNST4AOFV:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 124a2642-5eb7-4ebc-8803-d4bc9c569fa0
+    DependsOn:
+      - SNSTP12GMV
+  SNSTP12GMV:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e9933591-b2dc-4ef6-9c7b-e6fa792f9774
+  SNSTP288ED:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      Topics:
+        - !Ref SNST1CV9
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 2cc9e5d2-f947-4f82-a965-480960e1d37c
+  SNSSSMDV:
+    Type: 'AWS::SNS::Subscription'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c0ea9c44-c118-4402-8b80-9955b9fff03b
+    DependsOn:
+      - LF4FF74
+  SNSSWZH1:
+    Type: 'AWS::SNS::Subscription'
+    Properties:
+      TopicArn: !Ref SNST3LB1J
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: a23b8ea8-ba8e-435e-b3d4-2d04aee2d4e1
+  SNSTP336L0:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties:
+      Topics:
+        - !Ref SNST3LB1J
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5a66f8f3-a70f-4842-8c01-6fc1b1785bb2
+  SNSS2WCIA:
+    Type: 'AWS::SNS::Subscription'
+    Properties:
+      TopicArn: !Ref SNST1CV9
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c96d6e58-5067-4601-8b94-0940fc701e0f
+  SNSTP40F4H:
+    Type: 'AWS::SNS::TopicPolicy'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 956cfb4d-80c6-46e7-bded-46da8f086836
+  SNSS1X2KB:
+    Type: 'AWS::SNS::Subscription'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9d1220c1-3fad-47e2-aefc-3c095d13ebe7
+  S3BP1K1X6:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket: !Ref S3B522FV
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c8f709d2-d478-4a25-8296-ec08084f28f1
