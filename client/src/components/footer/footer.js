@@ -32,3 +32,7 @@ const MasonDayFooter = (props) => {
 };
 
 export default MasonDayFooter;
+
+// My Feet
+//
+// 

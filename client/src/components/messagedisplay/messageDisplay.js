@@ -2,25 +2,25 @@ import React from 'react';
 import { useStyles } from "./style";
 import PropTypes from "prop-types";
 
-export const MessageList = (messages, props) => {
+export const MessageDisplay = (messages, props) => {
     const classes = useStyles();
     return (
         <body {...props}>
             <div id="images" className={classes.container}>
                 <div className="row">
                     {messages?.map((data, index) => {
-                        const { messageText, download_url } = data
+                        const { messageBody, image } = data
                         return (
                             <div key={index} className={classes.card}>
                                 <div className={classes.cardImage}>
                                     <img
-                                        alt={messageText}
+                                        alt={messageBody}
                                         className={classes.cardImageTop}
-                                        src={download_url}
+                                        src={image}
                                     />
                                 </div>
                                 <div className={classes.cardText}>
-                                    <p>{messageText}</p>
+                                    <p>{messageBody}</p>
                                 </div>
                             </div>
                         )
@@ -31,8 +31,8 @@ export const MessageList = (messages, props) => {
     );
 }
 
-MessageList.PropTypes = {
+MessageDisplay.PropTypes = {
     messages: PropTypes.array
 };
 
-export default MessageList;
+export default MessageDisplay;

@@ -1,4 +1,4 @@
-import MessageList from "./messagelist";
+import MessageDisplay from "./messageDisplay";
 import { render } from "@testing-library/react";
 
 describe("Tests for the message list component", () => {

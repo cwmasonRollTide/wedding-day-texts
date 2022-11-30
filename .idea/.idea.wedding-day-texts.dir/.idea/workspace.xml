@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/header/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/header/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messagedisplay/messageDisplay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messagelist/messagelist.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messagedisplay/messageDisplay.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messagelist/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messagedisplay/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/wedding-day-texts-cloudformation-template.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,7 +156,7 @@
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
-      <workItem from="1669657873822" duration="8852000" />
+      <workItem from="1669657873822" duration="22729000" />
     </task>
     <servers />
   </component>
@@ -175,7 +184,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/components/header/header.js</url>
-          <line>11</line>
+          <line>10</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

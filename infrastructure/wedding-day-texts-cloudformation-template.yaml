@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: 2010-09-09
+Transform: 'AWS::Serverless-2016-10-31'
 Description: Wedding Day Texts Yaml Config
 Parameters:
   FunctionBucket:
@@ -16,16 +16,10 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - ':sqs:path/'
-        - !Ref 'AWS::AccountId'
-        - /
-        - !Ref WeddingDayTextsIncomingMessageQueue
-        - /
+      - - ':arn:aws:apigateway:'
         - !Ref AwsRegion
-        - /
-        - !Ref StageName
+        - ':sqs:SendMessage/{fromNumber}/{messageBody}/{image}/{numMedia}'
 Resources:
-  # ApiGateway is set up to go directly from encoded get request with media content into a Queue for incoming messages
   WeddingDayTextsApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
@@ -34,24 +28,22 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
-  # That Queue for incoming messages has a policy to trigger at least one lambda function. So when our resources are ready,
-  # messages in this queue are handled by our censorship function
   WeddingDayTextsIncomingMessageQueue:
     Type: 'AWS::SQS::Queue'
+    DependsOn: WeddingDayTextsApi
     Properties:
       DelaySeconds: 0
       MaximumMessageSize: 262144
       MessageRetentionPeriod: 1209600
-      QueueName: !Sub 'wedding-day-texts-incoming-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
+      QueueName: !Sub >-
+        wedding-day-texts-incoming-queue-${AwsRegion}-${StageName}-${WeddingDayTextsApi}
       ReceiveMessageWaitTimeSeconds: 0
       VisibilityTimeout: 60
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
-  
   WeddingDayTextsApiRole:
     Type: 'AWS::IAM::Role'
-    DependsOn: WeddingDayTextsIncomingMessageQueue
     Properties:
       AssumeRolePolicyDocument:
         Statement:
@@ -62,7 +54,7 @@ Resources:
               Service:
                 - apigateway.amazonaws.com
         Version: 2012-10-17
-      Path: /messageincoming
+      Path: /
       Policies:
         - PolicyDocument:
             Statement:
@@ -81,7 +73,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: be465e07-9841-4066-8e8d-54fdda15fe69
-        
   PolicySQS:
     Type: 'AWS::SQS::QueuePolicy'
     DependsOn: WeddingDayTextsIncomingMessageQueue
@@ -99,50 +90,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: fcca257d-2064-4dd3-8615-cc5b106ca436
-  GetMethod:
-    Type: 'AWS::ApiGateway::Method'
-    DependsOn: 
-      - WeddingDayTextsIncomingMessageQueue
-      - WeddingDayTextsApiRole
-      - WeddingDayTextsApi
-    Properties:
-      AuthorizationType: NONE
-      HttpMethod: GET
-      Integration:
-        Credentials: !GetAtt WeddingDayTextsApiRole.Arn
-        IntegrationHttpMethod: GET
-        IntegrationResponses:
-          - StatusCode: '200'
-        PassthroughBehavior: WHEN_NO_MATCH
-        RequestParameters:
-          integration.request.header.Content-Type: '''application-x-www-form-urlencoded'''
-        RequestTemplates:
-          application/json: 
-            - Action: SendMessage
-            - fromNumber: $input.params('From')
-            - messageBody: $input.params('Body')
-            - image: $input.params('MediaUrl0')
-            - numMedia: $input.params('NumMedia')
-        Type: AWS
-        Uri: !Join
-          - ''
-          - - ':sqs:path/'
-            - !Ref 'AWS::AccountId'
-            - /
-            - !Ref WeddingDayTextsIncomingMessageQueue
-            - /
-            - !Ref AwsRegion
-            - /
-            - !Ref StageName
-      MethodResponses:
-        - ResponseModels:
-            application/json: Empty
-          StatusCode: '200'
-      ResourceId: !Ref 'enqueueResource'
-      RestApiId: !Ref WeddingDayTextsApi
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
   enqueueResource:
     Type: 'AWS::ApiGateway::Resource'
     DependsOn: WeddingDayTextsApi
@@ -155,6 +102,39 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        
+  GetMethod:
+    Type: 'AWS::ApiGateway::Method'
+    DependsOn:
+      - enqueueResource
+      - WeddingDayTextsApi
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Credentials: !GetAtt WeddingDayTextsApiRole.Arn
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+          - StatusCode: '200'
+        PassthroughBehavior: WHEN_NO_MATCH
+        RequestParameters:
+          integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
+        RequestTemplates:
+          application/json: fromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
+        Type: AWS
+        Uri: !Join
+          - ''
+          - - ':arn:aws:apigateway:'
+            - !Ref AwsRegion
+            - ':sqs:SendMessage/{fromNumber}/{messageBody}/{image}/{numMedia}'
+      MethodResponses:
+        - ResponseModels:
+            application/json: "{\n \"StatusCode\": 200\n}"
+      ResourceId: !Ref enqueueResource
+      RestApiId: !Ref WeddingDayTextsApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
   gatewayDeployment:
     Type: 'AWS::ApiGateway::Deployment'
     DependsOn:
@@ -210,10 +190,9 @@ Resources:
     Properties:
       Code:
         S3Bucket: !Ref FunctionBucket
-        S3Key: "censorship-function.zip"
-        #        ZipFile: "../functions/censorship" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+        S3Key: censorship-function.zip
       Handler: index.handler
-      Role: !GetAtt 
+      Role: !GetAtt
         - CensorshipFunctionRole
         - Arn
       Runtime: nodejs14.x
@@ -230,18 +209,15 @@ Resources:
     Properties:
       BatchSize: 10
       Enabled: true
-      EventSourceArn: !GetAtt 
+      EventSourceArn: !GetAtt
         - WeddingDayTextsIncomingMessageQueue
         - Arn
-      FunctionName: !GetAtt 
+      FunctionName: !GetAtt
         - CensorshipFunction
         - Arn
     Metadata:
       'AWS::CloudFormation::Designer':
         id: f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
-        
-  # Our censorship function will either enqueue a payload into "SafeMessageQueue" or "ProfanityQueue" - depending
-  # on the result of the API call to the Rekognition service
   SafeMessageQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
@@ -289,14 +265,16 @@ Resources:
                 Resource: !GetAtt
                   - SafeMessageQueue
                   - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: bdb52e06-8222-4c01-83dd-6b3bbfe98dd6
   MessageArchiverFunction:
     Type: 'AWS::Lambda::Function'
     DependsOn: MessageArchiverFunctionRole
     Properties:
       Code:
         S3Bucket: !Ref FunctionBucket
-        S3Key: "message-archiver-function.zip"
-        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+        S3Key: message-archiver-function.zip
       Handler: index.handler
       Role: !GetAtt
         - MessageArchiverFunctionRole
@@ -307,7 +285,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
-  # Setup up the Safe Message Queue payloads to be processed by the MessageArchiverFunction
   MessageArchiverFunctionEventSourceMapping:
     Type: 'AWS::Lambda::EventSourceMapping'
     DependsOn:
@@ -322,7 +299,9 @@ Resources:
       FunctionName: !GetAtt
         - MessageArchiverFunction
         - Arn
-  
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
   MessageSafeNotificationFunctionRole:
     Type: 'AWS::IAM::Role'
     DependsOn: SafeMessageQueue
@@ -358,14 +337,16 @@ Resources:
                 Resource: !GetAtt
                   - SafeMessageQueue
                   - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 260411f6-a9fe-492b-963a-7b7c184eeab7
   MessageSafeNotificationFunction:
     Type: 'AWS::Lambda::Function'
     DependsOn: MessageSafeNotificationFunctionRole
     Properties:
       Code:
         S3Bucket: !Ref FunctionBucket
-        S3Key: "safe-message-notification-function.zip"
-        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+        S3Key: safe-message-notification-function.zip
       Handler: index.handler
       Role: !GetAtt
         - MessageSafeNotificationFunctionRole
@@ -376,8 +357,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
-        
-  #Rejected messages
   ProfanityQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
@@ -390,7 +369,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
-        
   ProfanityArchiverFunctionRole:
     Type: 'AWS::IAM::Role'
     DependsOn: ProfanityQueue
@@ -426,40 +404,10 @@ Resources:
                 Resource: !GetAtt
                   - ProfanityQueue
                   - Arn
-  ProfanityArchiverFunction:
-    Type: 'AWS::Lambda::Function'
-    DependsOn: ProfanityArchiverFunctionRole
-    Properties:
-      Code:
-        S3Bucket: !Ref FunctionBucket
-        S3Key: "profanity-archiver-function.zip"
-        #        ZipFile: "../functions/profanity-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
-      Handler: index.handler
-      Role: !GetAtt
-        - ProfanityArchiverFunctionRole
-        - Arn
-      Runtime: nodejs14.x
-      Timeout: 60
-      MemorySize: 512
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: c4a86b2f-f11a-432c-9508-98b6c168642d
-  # Setup up the Safe Message Queue payloads to be processed by the MessageArchiverFunction
-  ProfanityArchiverFunctionEventSourceMapping:
-    Type: 'AWS::Lambda::EventSourceMapping'
-    DependsOn:
-      - ProfanityQueue
-      - ProfanityArchiverFunction
-    Properties:
-      BatchSize: 10
-      Enabled: true
-      EventSourceArn: !GetAtt
-        - ProfanityQueue
-        - Arn
-      FunctionName: !GetAtt
-        - ProfanityArchiverFunction
-        - Arn
-
+        id: c9e455e6-356b-4fbd-b371-21b55ac4bda4
+ 
   ProfaneMessageNotificationFunctionRole:
     Type: 'AWS::IAM::Role'
     DependsOn: ProfanityQueue
@@ -495,14 +443,16 @@ Resources:
                 Resource: !GetAtt
                   - ProfanityQueue
                   - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9926761e-80a4-44df-8f8b-b7163289aa5b
   ProfaneMessageNotificationFunction:
     Type: 'AWS::Lambda::Function'
     DependsOn: ProfaneMessageNotificationFunctionRole
     Properties:
       Code:
         S3Bucket: !Ref FunctionBucket
-        S3Key: "profane-message-notification-function.zip"
-        #        ZipFile: "../functions/message-archiver" //TODO: when running from github action, we can use zipfile instead of specifying a bucket with prebuilt artifact
+        S3Key: profane-message-notification-function.zip
       Handler: index.handler
       Role: !GetAtt
         - ProfaneMessageNotificationFunctionRole
@@ -513,7 +463,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
-        
   ProfanityNotificationFunctionEventSourceMapping:
     Type: 'AWS::Lambda::EventSourceMapping'
     DependsOn:
@@ -528,7 +477,9 @@ Resources:
       FunctionName: !GetAtt
         - ProfaneMessageNotificationFunction
         - Arn
-#Metadata is so these components look pretty in the Cloudformation Designer
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 36259398-2cba-4e83-8f83-ae9c6561f5b1
 Metadata:
   'AWS::CloudFormation::Designer':
     14db55f5-58bb-4e2d-a023-9fc978ae0583:
@@ -536,8 +487,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 320
-        'y': 430
+        x: 440
+        'y': 30
       z: 1
       embeds: []
     999ab961-40b8-44a7-afc0-4f90a54b2d00:
@@ -545,8 +496,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 180
-        'y': 500
+        x: 270
+        'y': 250
       z: 1
       embeds: []
     c4a86b2f-f11a-432c-9508-98b6c168642d:
@@ -554,8 +505,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 20
-        'y': 430
+        x: 600
+        'y': 90
       z: 1
       embeds: []
     f9b5332f-d4c1-4150-abcc-c4f4a7729ec4:
@@ -563,8 +514,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 180
-        'y': 430
+        x: 490
+        'y': 90
       z: 1
       embeds: []
     fcca257d-2064-4dd3-8615-cc5b106ca436:
@@ -572,19 +523,19 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 500
-        'y': 300
+        x: 440
+        'y': -70
       z: 1
       embeds: []
-      isassociatedwith:
+      dependson:
         - 14db55f5-58bb-4e2d-a023-9fc978ae0583
     be465e07-9841-4066-8e8d-54fdda15fe69:
       size:
         width: 60
         height: 60
       position:
-        x: 320
-        'y': 330
+        x: 360
+        'y': 250
       z: 1
       embeds: []
     3c6cd6ea-82bd-4fb5-89b6-0b851b126136:
@@ -592,17 +543,17 @@ Metadata:
         width: 150
         height: 150
       position:
-        x: 360
-        'y': 90
+        x: 80
+        'y': -70
       z: 1
       embeds: []
     93cd0126-a66f-4fa5-985a-7981f135ff2a:
       size:
-        width: 240
-        height: 240
+        width: 120
+        height: 210
       position:
-        x: 60
-        'y': 90
+        x: 300
+        'y': 0
       z: 1
       embeds:
         - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
@@ -611,27 +562,98 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 90
-        'y': 150
+        x: 330
+        'y': 30
       z: 2
       parent: 93cd0126-a66f-4fa5-985a-7981f135ff2a
       embeds: []
       iscontainedinside:
         - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
+      dependson:
         - 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
     917daea1-6e43-4918-b83d-24f8474ece98:
       size:
         width: 60
         height: 60
       position:
-        x: 310
-        'y': 10
+        x: 240
+        'y': 60
       z: 1
       embeds: []
       dependson:
         - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
-          
-          # Infrastructure (Masons Over Time)
+        - 14db55f5-58bb-4e2d-a023-9fc978ae0583
+    9926761e-80a4-44df-8f8b-b7163289aa5b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 700
+        'y': 90
+      z: 1
+      embeds: []
+    36259398-2cba-4e83-8f83-ae9c6561f5b1:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': -20
+      z: 1
+      embeds: []
+    c9e455e6-356b-4fbd-b371-21b55ac4bda4:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 700
+        'y': 190
+      z: 1
+      embeds: []
+    27d2a6b8-bc00-4fb7-b685-b7a6b151609a:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': 200
+      z: 1
+      embeds: []
+    260411f6-a9fe-492b-963a-7b7c184eeab7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 500
+        'y': 250
+      z: 1
+      embeds: []
+    bdb52e06-8222-4c01-83dd-6b3bbfe98dd6:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 700
+        'y': 280
+      z: 1
+      embeds: []
+    3b8f2013-fac3-45e7-a963-ac8fc47b407d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 600
+        'y': -100
+      z: 1
+      embeds: []
+      
+      # Infrastructure (Masons Over Time)
+      
+      #Infrastructure 
 # Like the brick layers of old
 # Our namesakes' steady hands were true,
 # So that is surely what we'll do,
