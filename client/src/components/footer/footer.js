@@ -12,7 +12,7 @@ const MasonDayFooter = (props) => {
             <List role="link-list" className='list-unstyled'>
                 <h3 className={classes.subHeader}>Links</h3>
                 <ListItem>
-                    <Link data-testid="link-1" href='https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022' className='text-dark'>
+                    <Link data-testid="site-link" href='https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022' className='text-dark'>
                         Wedding Website
                     </Link>
                 </ListItem>

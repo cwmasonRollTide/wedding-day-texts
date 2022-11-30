@@ -12,7 +12,7 @@ describe('Footer tests', () => {
     
     it('Link should have attribute', () => {
        const { getByTestId } = customRender(<Footer />);
-        expect(getByTestId('link-1')).toHaveAttribute('href', "https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022");
+        expect(getByTestId('site-link')).toHaveAttribute('href', "https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022");
     });
 });
 

@@ -7,7 +7,7 @@ import ImagePost from "../imagepost/imagepost";
 export const MessageDisplay = (props) => {
     const classes = useStyles();
     const { messages } = props;
-    ///
+
     // <summary>
     // For now, we are just handling SMS and MMS, so if the numMedia field is greater than zero, it is an image message 
     // </summary
