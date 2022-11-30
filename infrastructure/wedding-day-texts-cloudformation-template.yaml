@@ -129,7 +129,8 @@ Resources:
             - ':sqs:SendMessage/{fromNumber}/{messageBody}/{image}/{numMedia}'
       MethodResponses:
         - ResponseModels:
-            application/json: "{\n \"StatusCode\": 200\n}"
+            application/json: Empty
+          StatusCode: 200
       ResourceId: !Ref enqueueResource
       RestApiId: !Ref WeddingDayTextsApi
     Metadata:
