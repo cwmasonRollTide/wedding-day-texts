@@ -16,9 +16,12 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - ':arn:aws:apigateway:'
+      - - 'arn:aws:apigateway:'
         - !Ref AwsRegion
-        - ':sqs:SendMessage/{fromNumber}/{messageBody}/{image}/{numMedia}'
+        - ':sqs:path/'
+        - 'AWS::AccountId'
+        - /
+        - !Sub wedding-day-texts-incoming-queue-${AwsRegion}-${StageName}-${WeddingDayTextsApi}
 Resources:
   WeddingDayTextsApi:
     Type: 'AWS::ApiGateway::RestApi'
@@ -90,7 +93,7 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: fcca257d-2064-4dd3-8615-cc5b106ca436
-  enqueueResource:
+  EnqueueResource:
     Type: 'AWS::ApiGateway::Resource'
     DependsOn: WeddingDayTextsApi
     Properties:
@@ -106,7 +109,7 @@ Resources:
   GetMethod:
     Type: 'AWS::ApiGateway::Method'
     DependsOn:
-      - enqueueResource
+      - EnqueueResource
       - WeddingDayTextsApi
     Properties:
       AuthorizationType: NONE
@@ -116,22 +119,17 @@ Resources:
         IntegrationHttpMethod: GET
         IntegrationResponses:
           - StatusCode: '200'
-        PassthroughBehavior: WHEN_NO_MATCH
+        PassthroughBehavior: WHEN_NO_TEMPLATES
         RequestParameters:
           integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
         RequestTemplates:
-          application/json: fromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
+          application/json: Action=SendMessagefromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
         Type: AWS
-        Uri: !Join
-          - ''
-          - - ':arn:aws:apigateway:'
-            - !Ref AwsRegion
-            - ':sqs:SendMessage/{fromNumber}/{messageBody}/{image}/{numMedia}'
-      MethodResponses:
-        - ResponseModels:
-            application/json: Empty
-          StatusCode: 200
-      ResourceId: !Ref enqueueResource
+        Uri: !Ref WeddingDayTextsApi
+        ResponseModels: 
+          - application/json: Empty
+        StatusCode: 200
+      ResourceId: !Ref EnqueueResource
       RestApiId: !Ref WeddingDayTextsApi
     Metadata:
       'AWS::CloudFormation::Designer':
