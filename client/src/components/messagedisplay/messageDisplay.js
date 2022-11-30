@@ -1,37 +1,33 @@
 import React from 'react';
 import { useStyles } from "./style";
 import PropTypes from "prop-types";
+import TextPost from "../textpost/textpost";
+import ImagePost from "../imagepost/imagepost";
 
-export const MessageDisplay = (messages, props) => {
+export const MessageDisplay = (props) => {
     const classes = useStyles();
+    const { messages } = props;
+    ///
+    // <summary>
+    // For now, we are just handling SMS and MMS, so if the numMedia field is greater than zero, it is an image message 
+    // </summary
+    const renderMessage = (data) => {
+      if (data?.numMedia > 0) 
+          return <ImagePost message={data} />;
+      return <TextPost message={data?.messageBody} />;
+    };
     return (
-        <body {...props}>
-            <div id="images" className={classes.container}>
-                <div className="row">
-                    {messages?.map((data, index) => {
-                        const { messageBody, image } = data
-                        return (
-                            <div key={index} className={classes.card}>
-                                <div className={classes.cardImage}>
-                                    <img
-                                        alt={messageBody}
-                                        className={classes.cardImageTop}
-                                        src={image}
-                                    />
-                                </div>
-                                <div className={classes.cardText}>
-                                    <p>{messageBody}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+        <div {...props} data-testid="messagecontainer" id="images" className={classes.container}>
+            <div className="row">
+                {messages?.map((data, index) => {
+                    renderMessage(data);
+                })}
             </div>
-        </body>
+        </div>
     );
 }
 
-MessageDisplay.PropTypes = {
+MessageDisplay.propTypes = {
     messages: PropTypes.array
 };
 

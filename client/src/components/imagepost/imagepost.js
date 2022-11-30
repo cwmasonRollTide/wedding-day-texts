@@ -1,9 +1,10 @@
 import React from 'react';
 import {useStyles} from "./style";
+import PropTypes from "prop-types";
 
 const ImagePost = (props) => {
     const classes = useStyles();
-    const { image, messageText } = props.message;
+    const { image, messageBody } = props.message;
     return (
         <div className={classes.ImagePost} {...props}>
             <img 
@@ -13,10 +14,17 @@ const ImagePost = (props) => {
                 role="image"
             />
             <p role="message-text" className={classes.Text}>
-                {messageText}
+                {messageBody}
             </p>
         </div>
     );
 };
+
+ImagePost.propTypes = {
+    message: {
+        image: PropTypes.string,
+        messageBody: PropTypes.string
+    }
+}
 
 export default ImagePost;
