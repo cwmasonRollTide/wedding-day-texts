@@ -21,6 +21,7 @@ const WeddingDayTexts = () => {
     
     useEffect(async () => {
         const messages = await s3Bucket.getMessages();
+        //TODO: translate bucket response into same shape as what comes into incoming queue
         setMessages(messages);
     }, [])
 
