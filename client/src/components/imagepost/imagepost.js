@@ -20,11 +20,4 @@ const ImagePost = (props) => {
     );
 };
 
-ImagePost.propTypes = {
-    message: {
-        image: PropTypes.string,
-        messageBody: PropTypes.string
-    }
-}
-
 export default ImagePost;

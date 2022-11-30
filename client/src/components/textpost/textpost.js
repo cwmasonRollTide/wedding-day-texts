@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const TextPost = ({message}) => {
     const classes = useStyles();
-    return !_.isNullOrUndefined(message) && (
+    return message && (
         <div role="text-post" className={classes.Text}>
             {message}
         </div>
