@@ -16,16 +16,12 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - 'arn:aws:apigateway:'
+      - - https://
+        - !Ref WeddingDayTextsApi
+        - .execute-api.
         - !Ref AwsRegion
-        - ':sqs:path/'
-        - !Ref 'AWS::AccountId'
-        - /
-        - !GetAtt WeddingDayTextsIncomingMessageQueue.QueueName
-        - /
-        - weddingdaytexts
-        - /
-        - messageincoming
+        - .amazonaws.com/
+        - !Ref StageName
 Resources:
   WeddingDayTextsApi:
     Type: 'AWS::ApiGateway::RestApi'
@@ -57,7 +53,6 @@ Resources:
               Service:
                 - apigateway.amazonaws.com
         Version: 2012-10-17
-      Path: /
       Policies:
         - PolicyName: apig-sqs-send-msg-policy
           PolicyDocument:
