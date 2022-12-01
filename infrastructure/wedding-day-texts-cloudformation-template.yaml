@@ -16,7 +16,12 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - !Ref GetMethod
+      - - 'arn:aws:apigateway:'
+        - !Ref AwsRegion
+        - ':sqs:path/'
+        - !Ref 'AWS::AccountId'
+        - /
+        - !GetAtt WeddingDayTextsIncomingMessageQueue.QueueName
         - /
         - weddingdaytexts
         - /
@@ -404,23 +409,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 64394225-b7bb-4e24-b513-869c94d14e81
-  SafeMessageQueueSourcing:
-    Type: 'AWS::Lambda::EventSourceMapping'
-    DependsOn:
-      - CensorshipFunction
-      - SafeMessageQueue
-    Properties:
-      BatchSize: 10
-      Enabled: true
-      EventSourceArn: !GetAtt
-        - CensorshipFunction
-        - Arn
-      FunctionName: !GetAtt
-        - SafeMessageQueue
-        - Arn
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 989ccf29-3434-41d7-8d13-61f17917e33e
   ProfanityQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
@@ -452,23 +440,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 35f67cb1-92ec-4d61-914e-a571cd6e9aa0
-  ProfaneMessageQueueSourcing:
-    Type: 'AWS::Lambda::EventSourceMapping'
-    DependsOn:
-      - CensorshipFunction
-      - ProfanityQueue
-    Properties:
-      BatchSize: 10
-      Enabled: true
-      EventSourceArn: !GetAtt
-        - CensorshipFunction
-        - Arn
-      FunctionName: !GetAtt
-        - ProfanityQueue
-        - Arn
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: ad1990de-0186-483d-b5df-298425f94019
   ProfaneMessageNotificationFunctionRole:
     Type: 'AWS::IAM::Role'
     DependsOn: ProfanityQueue
@@ -798,7 +769,6 @@ Metadata:
         'y': 360
       z: 1
       embeds: []
-
 
 #Infrastructure 
 # Like the brick layers of old
