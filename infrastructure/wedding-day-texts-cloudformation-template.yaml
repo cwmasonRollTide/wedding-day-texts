@@ -14,26 +14,18 @@ Parameters:
 Outputs:
   ApiEndpoint:
     Description: Endpoint for this stage of the api
-    Value: !Join
-      - ''
-      - - 'arn:aws:apigateway:'
-        - !Ref AwsRegion
-        - ':sqs:path/'
-        - 'AWS::AccountId'
-        - /
-        - !Sub wedding-day-texts-incoming-queue-${AwsRegion}-${StageName}-${WeddingDayTextsApi}
+    Value: !Ref WeddingDayTextsApi
 Resources:
   WeddingDayTextsApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
-      Description: API Endpoint to receive JSON payloads and queue in SQS
+      Description: API Endpoint to receive payloads and queue in SQS
       Name: WeddingDayTextsApi
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
   WeddingDayTextsIncomingMessageQueue:
     Type: 'AWS::SQS::Queue'
-    DependsOn: WeddingDayTextsApi
     Properties:
       DelaySeconds: 0
       MaximumMessageSize: 262144
@@ -95,7 +87,6 @@ Resources:
         id: fcca257d-2064-4dd3-8615-cc5b106ca436
   EnqueueResource:
     Type: 'AWS::ApiGateway::Resource'
-    DependsOn: WeddingDayTextsApi
     Properties:
       ParentId: !GetAtt
         - WeddingDayTextsApi
@@ -105,7 +96,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 93cd0126-a66f-4fa5-985a-7981f135ff2a
-        
   GetMethod:
     Type: 'AWS::ApiGateway::Method'
     DependsOn:
@@ -123,10 +113,11 @@ Resources:
         RequestParameters:
           integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
         RequestTemplates:
-          application/json: Action=SendMessagefromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
+          application/json: >-
+            Action=SendMessagefromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
         Type: AWS
         Uri: !Ref WeddingDayTextsApi
-        ResponseModels: 
+        ResponseModels:
           - application/json: Empty
         StatusCode: 200
       ResourceId: !Ref EnqueueResource
@@ -223,15 +214,33 @@ Resources:
       DelaySeconds: 0
       MaximumMessageSize: 262144
       MessageRetentionPeriod: 1209600
-      QueueName: !Sub 'safe-message-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
+      QueueName: !Sub >-
+        safe-message-queue-${AwsRegion}-${StageName}
       ReceiveMessageWaitTimeSeconds: 0
       VisibilityTimeout: 60
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
+  SafeQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    DependsOn:
+      - SafeMessageQueue
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: 'SQS:*'
+            Effect: Allow
+            Principal: '*'
+            Resource: !GetAtt SafeMessageQueue.Arn
+            Sid: Sid1517269801413
+        Version: 2012-10-17
+      Queues:
+        - !Ref SafeMessageQueue
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 967bdc88-4e59-4f79-af67-a81a9557b4b0
   MessageArchiverFunctionRole:
     Type: 'AWS::IAM::Role'
-    DependsOn: SafeMessageQueue
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -286,9 +295,6 @@ Resources:
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
   MessageArchiverFunctionEventSourceMapping:
     Type: 'AWS::Lambda::EventSourceMapping'
-    DependsOn:
-      - SafeMessageQueue
-      - MessageArchiverFunction
     Properties:
       BatchSize: 10
       Enabled: true
@@ -301,6 +307,9 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+    DependsOn:
+      - SafeMessageQueue
+      - MessageArchiverFunction
   MessageSafeNotificationFunctionRole:
     Type: 'AWS::IAM::Role'
     DependsOn: SafeMessageQueue
@@ -356,70 +365,71 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: c4a86b2f-f11a-432c-9508-98b6c168642d
+  SafeMessageNotificationFunctionEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - SafeMessageQueue
+        - Arn
+      FunctionName: !GetAtt
+        - MessageSafeNotificationFunction
+        - Arn
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+    DependsOn:
+      - SafeMessageQueue
+      - MessageSafeNotificationFunction
   ProfanityQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
       DelaySeconds: 0
       MaximumMessageSize: 262144
       MessageRetentionPeriod: 1209600
-      QueueName: !Sub 'profanity-queue-${AwsRegion}-${WeddingDayTextsApi}-${StageName}'
+      QueueName: !Sub >-
+        profanity-queue-${AwsRegion}-${StageName}
       ReceiveMessageWaitTimeSeconds: 0
       VisibilityTimeout: 60
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: 14db55f5-58bb-4e2d-a023-9fc978ae0583
-  ProfanityArchiverFunctionRole:
-    Type: 'AWS::IAM::Role'
+        id: db491387-688f-4c43-8cdc-db388ae728cb
+  ProfaneQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
     DependsOn: ProfanityQueue
     Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
+      PolicyDocument:
         Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Policies:
-        - PolicyName: allowLambdaLogs
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'logs:*'
-                Resource: 'arn:aws:logs:*:*:*'
-        - PolicyName: allowSqs
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'sqs:ReceiveMessage'
-                  - 'sqs:DeleteMessage'
-                  - 'sqs:GetQueueAttributes'
-                  - 'sqs:ChangeMessageVisibility'
-                Resource: !GetAtt
-                  - ProfanityQueue
-                  - Arn
+          - Action: 'SQS:*'
+            Effect: Allow
+            Principal: '*'
+            Resource: !GetAtt ProfanityQueue.Arn
+            Sid: Sid1517269801413
+        Version: 2012-10-17
+      Queues:
+        - !Ref ProfanityQueue
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: c9e455e6-356b-4fbd-b371-21b55ac4bda4
- 
+        id: 15d81e1a-c2f9-408f-8162-d9569d7d4912
   ProfaneMessageNotificationFunctionRole:
     Type: 'AWS::IAM::Role'
-    DependsOn: ProfanityQueue
+    DependsOn:
+      - ProfanityQueue
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
             Action:
               - 'sts:AssumeRole'
+              - 'sqs:ReceiveMessage'
+              - 'sqs:DeleteMessage'
+              - 'sqs:GetQueueAttributes'
+              - 'sqs:ChangeMessageVisibility'
+            Resource: !GetAtt
+              - ProfanityQueue
+              - Arn
       Policies:
         - PolicyName: allowLambdaLogs
           PolicyDocument:
@@ -486,8 +496,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 440
-        'y': 30
+        x: 430
+        'y': 60
       z: 1
       embeds: []
     999ab961-40b8-44a7-afc0-4f90a54b2d00:
@@ -495,8 +505,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 270
-        'y': 250
+        x: 550
+        'y': 140
       z: 1
       embeds: []
     c4a86b2f-f11a-432c-9508-98b6c168642d:
@@ -504,8 +514,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 600
-        'y': 90
+        x: 880
+        'y': 30
       z: 1
       embeds: []
     f9b5332f-d4c1-4150-abcc-c4f4a7729ec4:
@@ -513,8 +523,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 490
-        'y': 90
+        x: 550
+        'y': 60
       z: 1
       embeds: []
     fcca257d-2064-4dd3-8615-cc5b106ca436:
@@ -522,8 +532,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 440
-        'y': -70
+        x: 450
+        'y': 160
       z: 1
       embeds: []
       dependson:
@@ -533,8 +543,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 360
-        'y': 250
+        x: 330
+        'y': 60
       z: 1
       embeds: []
     3c6cd6ea-82bd-4fb5-89b6-0b851b126136:
@@ -542,44 +552,37 @@ Metadata:
         width: 150
         height: 150
       position:
-        x: 80
-        'y': -70
+        x: 30
+        'y': 20
       z: 1
       embeds: []
     93cd0126-a66f-4fa5-985a-7981f135ff2a:
       size:
-        width: 120
-        height: 210
+        width: 150
+        height: 90
       position:
-        x: 300
-        'y': 0
+        x: 170
+        'y': 160
       z: 1
-      embeds:
-        - 6b8f04f1-26ea-43b6-8cb9-d45164f7b981
+      embeds: []
     6b8f04f1-26ea-43b6-8cb9-d45164f7b981:
       size:
         width: 60
         height: 60
       position:
-        x: 330
-        'y': 30
-      z: 2
-      parent: 93cd0126-a66f-4fa5-985a-7981f135ff2a
+        x: 220
+        'y': 60
+      z: 1
       embeds: []
-      iscontainedinside:
-        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
-        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
-        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
-        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
-        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
       dependson:
+        - 93cd0126-a66f-4fa5-985a-7981f135ff2a
         - 3c6cd6ea-82bd-4fb5-89b6-0b851b126136
     917daea1-6e43-4918-b83d-24f8474ece98:
       size:
         width: 60
         height: 60
       position:
-        x: 240
+        x: 60
         'y': 60
       z: 1
       embeds: []
@@ -591,35 +594,19 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 700
-        'y': 90
+        x: 780
+        'y': -40
       z: 1
       embeds: []
+      dependson:
+        - c4a86b2f-f11a-432c-9508-98b6c168642d
     36259398-2cba-4e83-8f83-ae9c6561f5b1:
       size:
         width: 60
         height: 60
       position:
-        x: 600
-        'y': -20
-      z: 1
-      embeds: []
-    c9e455e6-356b-4fbd-b371-21b55ac4bda4:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: 700
-        'y': 190
-      z: 1
-      embeds: []
-    27d2a6b8-bc00-4fb7-b685-b7a6b151609a:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: 600
-        'y': 200
+        x: 780
+        'y': 30
       z: 1
       embeds: []
     260411f6-a9fe-492b-963a-7b7c184eeab7:
@@ -627,8 +614,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 500
-        'y': 250
+        x: 550
+        'y': -10
       z: 1
       embeds: []
     bdb52e06-8222-4c01-83dd-6b3bbfe98dd6:
@@ -636,8 +623,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 700
-        'y': 280
+        x: 780
+        'y': 210
       z: 1
       embeds: []
     3b8f2013-fac3-45e7-a963-ac8fc47b407d:
@@ -645,16 +632,129 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 600
+        x: 780
+        'y': 110
+      z: 1
+      embeds: []
+      dependson:
+        - 4e47a8ee-0a84-46c1-b0eb-069d7469fc6f
+        - 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+        - 21c9f93a-68a9-4217-bf0b-68730decb2d7
+    15d81e1a-c2f9-408f-8162-d9569d7d4912:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 660
         'y': -100
       z: 1
       embeds: []
-      
-      #Infrastructure 
-      # Like the brick layers of old
-      # Our namesakes' steady hands were true,
-      # So that is surely what we'll do,
-      # Is lay a brick again, now two.
-      # In fact as long as I'm with you,
-      # I'll keep on working on these tasks.
-      # Progressing every year it's like we're building paths.
+      isassociatedwith:
+        - db491387-688f-4c43-8cdc-db388ae728cb
+    967bdc88-4e59-4f79-af67-a81a9557b4b0:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 660
+        'y': 210
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      dependson:
+        - bdb52e06-8222-4c01-83dd-6b3bbfe98dd6
+    db491387-688f-4c43-8cdc-db388ae728cb:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 660
+        'y': 0
+      z: 0
+      embeds: []
+      dependson:
+        - 15d81e1a-c2f9-408f-8162-d9569d7d4912
+        - c4a86b2f-f11a-432c-9508-98b6c168642d
+        - f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
+    d7f96d87-323c-49b9-9999-7335d3384590:
+      source:
+        id: db491387-688f-4c43-8cdc-db388ae728cb
+      target:
+        id: f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
+      z: 2
+    3c0015f9-2aea-4bca-834b-a13155ec4c8f:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 660
+        'y': 110
+      z: 0
+      dependson:
+        - 967bdc88-4e59-4f79-af67-a81a9557b4b0
+        - f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
+    835a76a1-2f1c-481b-9301-0cdac35b1a3d:
+      source:
+        id: 967bdc88-4e59-4f79-af67-a81a9557b4b0
+      target:
+        id: 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      z: 3
+    1a4e7363-1271-4b25-b23a-efb119ce64c6:
+      source:
+        id: 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      target:
+        id: 967bdc88-4e59-4f79-af67-a81a9557b4b0
+      z: 4
+    b4f6b7dd-881e-42d4-95b2-d8ba2a17e271:
+      source:
+        id: 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      target:
+        id: f9b5332f-d4c1-4150-abcc-c4f4a7729ec4
+      z: 5
+    21c9f93a-68a9-4217-bf0b-68730decb2d7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 880
+        'y': 110
+      z: 0
+    1cb07e4d-d653-4862-ba9d-a9505a2516af:
+      source:
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+      target:
+        id: 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      z: 6
+    a5320e02-0f7e-408a-9844-0dffc3e4b10c:
+      source:
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+      target:
+        id: 21c9f93a-68a9-4217-bf0b-68730decb2d7
+      z: 7
+    19886245-1c0f-4509-9352-1f697cda7250:
+      source:
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
+        port: 'AWS::DependencyLink-*'
+      target:
+        id: 21c9f93a-68a9-4217-bf0b-68730decb2d7
+      z: 9
+    dcd3b888-efc4-4031-8d64-6dbba18a66fb:
+      source:
+        id: 3b8f2013-fac3-45e7-a963-ac8fc47b407d
+        selector: 'g:nth-child(1) g:nth-child(4) g:nth-child(1) circle:nth-child(1)     '
+        port: 'AWS::DependencyLink-*'
+      target:
+        id: 3c0015f9-2aea-4bca-834b-a13155ec4c8f
+      z: 9
+
+
+#Infrastructure 
+# Like the brick layers of old
+# Our namesakes' steady hands were true,
+# So that is surely what we'll do,
+# Is lay a brick again, now two.
+# In fact as long as I'm with you,
+# I'll keep on working on these tasks.
+# Progressing every year it's like we're building paths.
