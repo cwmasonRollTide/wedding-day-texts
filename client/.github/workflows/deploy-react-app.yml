@@ -32,6 +32,9 @@ jobs:
         with:
           node-version: 16.14.0
           cache: "npm"
+        - run: cd client
+        - run: npm ci
+        - run: npm test 
       - name: Navigate to client
         run: cd client
       - name: Install dependencies
