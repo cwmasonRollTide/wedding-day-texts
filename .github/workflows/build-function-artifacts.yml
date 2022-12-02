@@ -1,8 +1,6 @@
 ## Deploy the front-end message displaying react application to an S3 Bucket
 name: Wedding Day Texts build lambda functions
 on:
-  pull_request:
-    branches: [ "main", "develop" ]
   push:
     branches: [ "develop" ]
 jobs:  
