@@ -1,9 +1,9 @@
 name: Wedding Day Texts Test/Build/Deploy Github Action
 on:
-  pull_request:
-    branches: [ "main", "develop" ]
-  push:
-    branches: [ "develop", "main" ]
+#  pull_request:
+#    branches: [ "main", "develop" ]
+#  push:
+#    branches: [ "develop", "main" ]
   workflow_dispatch:
     inputs:
       AWS_REGION:
