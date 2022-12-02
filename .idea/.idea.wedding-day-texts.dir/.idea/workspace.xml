@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="" />
+    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-stack.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-stack.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.github/workflows/deploy-react-app.yml" beforeDir="false" afterPath="$PROJECT_DIR$/client/.github/workflows/deploy-react-app.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +150,7 @@
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
-      <workItem from="1669657873822" duration="75939000" />
+      <workItem from="1669657873822" duration="76652000" />
     </task>
     <servers />
   </component>
