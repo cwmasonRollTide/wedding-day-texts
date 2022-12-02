@@ -1,6 +1,5 @@
 import React from 'react';
 import {useStyles} from "./style";
-import PropTypes from "prop-types";
 
 const ImagePost = (props) => {
     const classes = useStyles();

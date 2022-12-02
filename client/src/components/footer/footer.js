@@ -4,13 +4,9 @@ import {Link, List, ListItem} from "@mui/material";
 
 const MasonDayFooter = (props) => {
     const classes = useStyles();
-    const onAClick = () => {
-        console.log('THIS IS WEIRD');
-    }
     return (
         <footer role="footer" className={classes.MasonDayFooter} {...props}>
             <List role="link-list" className='list-unstyled'>
-                <h3 className={classes.subHeader}>Links</h3>
                 <ListItem>
                     <Link data-testid="site-link" href='https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022' className='text-dark'>
                         Wedding Website
@@ -31,9 +27,13 @@ export default MasonDayFooter;
 // My Feet
 //
 // I run to you now
-// I will run to you till death
-// And then I will crawl
+// And will run to you till death
+// Until I must crawl
 
 // As I move your way
-// I will prove our love transcends
+// To prove our love still transcends
 // Even Heaven's gates
+
+// Never get enough
+// Your voice always elates me
+// Feet, stay put for now
