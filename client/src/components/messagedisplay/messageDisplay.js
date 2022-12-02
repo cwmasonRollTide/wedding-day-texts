@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useStyles } from "./style";
 import PropTypes from "prop-types";
 import TextPost from "../textpost/textpost";
 import ImagePost from "../imagepost/imagepost";
-import {useEffect, useState} from "@types/react";
 import {S3Client} from "@aws-sdk/client-s3";
 
 export const MessageDisplay = () => {
