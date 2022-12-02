@@ -1,8 +1,8 @@
 ## Deploy the front-end message displaying react application to an S3 Bucket
 name: Wedding Day Texts Test/Build/Deploy Github Action
 on:
-#  push:
-#    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 #  pull_request:
 #    branches: [ "main" ]
 #  workflow_dispatch:
