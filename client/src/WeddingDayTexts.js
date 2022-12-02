@@ -24,9 +24,10 @@ const WeddingDayTexts = () => {
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <div role="App">
-                    <Header />
-                    <MessageDisplay messages={messages} />
-                    <Footer />
+                    <h1>WEDDING DAY TEXTS COMING SOON</h1>
+                    {/*<Header />*/}
+                    {/*<MessageDisplay messages={messages} />*/}
+                    {/*<Footer />*/}
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>
