@@ -22,9 +22,6 @@ const MasonDayFooter = (props) => {
                     </Link>
                 </ListItem>
             </List>
-            <div role="event-date" className='text-center p-3' style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
-                &copy; {new Date().getFullYear()} Event Date:{' '}
-            </div>
         </footer>
     );
 };
