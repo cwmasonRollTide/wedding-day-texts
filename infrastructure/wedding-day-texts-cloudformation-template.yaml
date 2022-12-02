@@ -110,7 +110,6 @@ Resources:
         IntegrationHttpMethod: GET
         IntegrationResponses:
           - StatusCode: '200'
-        PassthroughBehavior: WHEN_NO_TEMPLATES
         RequestParameters:
           integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
         RequestTemplates:
