@@ -61,7 +61,9 @@ const mockTheme = {
                 focus: jest.fn()
             },
             primary: {
-                mainChannel: '1'
+                mainChannel: '1',
+                contrastText: 'white',
+                main: 'purple'
             },
             AppBar: {
                 darkBg: ''

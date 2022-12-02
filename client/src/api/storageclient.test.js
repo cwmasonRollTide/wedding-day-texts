@@ -9,8 +9,8 @@ describe('Storage client tests', () => {
     it('Get Messages should call client send method', async () => {
         const storageClient = setupClientMock([], true);
         const testReq = {
-            "testImage": 10393782829003,
-            "testText": "Image I Sent"
+            "image": 10393782829003,
+            "messageBody": "Image I Sent"
         };
         await storageClient.getMessages(testReq);
         expect(sendSpy).toHaveBeenCalledWith(testReq)
@@ -18,11 +18,11 @@ describe('Storage client tests', () => {
     
     it('Get Messages should return the data given by the send call', async () => {
        const mockData = [{
-           "Text": "Ipsum Salt a majoria",
-           "src": "https://annandconnor2022.com"
+           "messageBody": "Ipsum Salt a majoria",
+           "image": "https://annandconnor2022.com"
        }, {
-           "Text": "Till death do us part",
-           "src": "https://the_morbid_side_of_wedding_culture.com"
+           "messageBody": "Till death do us part",
+           "image": "https://the_morbid_side_of_wedding_culture.com"
        }];
        const storageClient = setupClientMock(mockData, true);
        const result = await storageClient.getMessages({});

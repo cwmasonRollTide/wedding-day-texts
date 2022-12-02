@@ -1,0 +1,45 @@
+## Deploy the front-end message displaying react application to an S3 Bucket
+name: Wedding Day Texts Test/Build/Deploy Github Action
+on:
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      AWS_REGION:
+        description: 'Region to deploy functions and later on cloudformation to'
+        required: true
+        default: 'us-east-2'
+      AWS_FUNCTION_BUCKET:
+        description: 'AWS S3 bucket to hold the Lambda functions'
+        required: true
+        default: 'functions-test-s3-bucket'
+      STAGE_NAME:
+        description: 'What stage to deploy to. right now just adds to naming of services'
+        required: false
+        default: 'test'
+jobs:  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: configureawscredentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+          role-session-name: GithubTriggeredDeployment
+          aws-region: '${{ github.event.inputs.AWS_REGION }}'
+      - name: Upload censorship function to AWS S3 Function bucket
+        run: 'aws s3 cp build-artifacts/censorship-function.zip s3://${{ github.event.inputs.AWS_FUNCTION_BUCKET }}'
+      - name: Upload message archiver function to AWS S3 Function bucket
+        run: 'aws s3 cp build-artifacts/message-archiver-function.zip s3://${{ github.event.inputs.AWS_FUNCTION_BUCKET }}'
+      - name: Upload message archiver function to AWS S3 Function bucket
+        run: 'aws s3 cp build-artifacts/profane-message-notification-function.zip s3://${{ github.event.inputs.AWS_FUNCTION_BUCKET }}'
+      - name: Upload safe message notification function to AWS S3 Function bucket
+        run: 'aws s3 cp build-artifacts/safe-message-notification-function.zip s3://${{ github.event.inputs.AWS_FUNCTION_BUCKET }}'
+      - uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: WeddingDayTexts
+          template: infrastructure/wedding-day-texts-cloudformation-template.yaml
+          parameter-overrides: "AwsRegion=${{ github.event.inputs.AWS_REGION }},StageName=${{ github.event.inputs.STAGE_NAME }},FunctionBucket=${{ github.event.inputs.AWS_FUNCTION_BUCKET }}"
+          no-fail-on-empty-changeset: true

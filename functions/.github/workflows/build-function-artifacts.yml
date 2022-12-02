@@ -1,0 +1,31 @@
+## Deploy the front-end message displaying react application to an S3 Bucket
+name: Wedding Day Texts build lambda functions
+on:
+  pull_request:
+    branches: [ "main", "develop" ]
+  push:
+    branches: [ "develop" ]
+jobs:  
+  zip-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Zip Censorship Function into build artifact
+        uses: vimtor/action-zip@v1
+        with:
+          files: functions/queries/censorship
+          dest: build-artifacts/censorship-function.zip
+      - name: Zip Profane Message Notification Function into build artifact
+        uses: vimtor/action-zip@v1
+        with:
+          files: functions/notifications/profane-message-notification
+          dest: build-artifacts/profane-message-notification-function.zip
+      - name: Zip Safe Message Notification Function into build artifact
+        uses: vimtor/action-zip@v1
+        with:
+          files: functions/notifications/safe-message-notification
+          dest: build-artifacts/safe-message-notification-function.zip
+      - name: Zip Message Archiver function into build artifact
+        uses: vimtor/action-zip@v1
+        with:
+          files: functions/commands/message-archiver
+          dest: build-artifacts/message-archiver-function.zip
