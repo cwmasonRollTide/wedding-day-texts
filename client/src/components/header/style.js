@@ -9,11 +9,10 @@ export const useStyles = makeStyles(theme => ({
          justifyContent: 'center', 
          palette: {
              background: {
-                paper: 'white',
+                 paper: 'white', 
                  color: 'purple'
              }
          },
          backgroundColor: 'purple',
-         color: 'white'
     }
 }));
