@@ -34,4 +34,5 @@ const WeddingDayTexts = () => {
     );
 }
 
+
 export default WeddingDayTexts;
