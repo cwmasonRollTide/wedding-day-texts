@@ -4,18 +4,21 @@ import PropTypes from "prop-types";
 import TextPost from "../textpost/textpost";
 import ImagePost from "../imagepost/imagepost";
 import {S3Client} from "@aws-sdk/client-s3";
+import StorageClient from "../../api/storageclient";
 
 export const MessageDisplay = () => {
     const classes = useStyles();
     const [messages, setMessages] = useState([]);
-    const s3Bucket = new S3Client(process?.env?.AWS_REGION ?? "us-east-1");
+    const s3Bucket = new S3Client({region: "us-east-2" });
+    const storageClient = new StorageClient(s3Bucket);
 
     useEffect(async () => {
         try {
-            const messages = await s3Bucket.getMessages();
+            const messages = await storageClient.getMessages();
             setMessages(messages);
         } catch (err) {
             console.log("BLASH AL:OQIJKFN");
+            console.log(err);
         }
     }, [])
 
