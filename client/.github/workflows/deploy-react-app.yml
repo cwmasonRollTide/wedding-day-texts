@@ -49,5 +49,5 @@ jobs:
         with:
           name: WeddingDayTextsDisplaySiteHost
           template: infrastructure/hosted-react-app-template.yaml
-          parameter-overrides: "STAGE_NAME=${{ secrets.STAGE_NAME }},AWS_HOSTING_BUCKET=${{ secrets.AWS_HOSTING_BUCKET }}"
+          parameter-overrides: "StageName=${{ secrets.STAGE_NAME }},AwsHostingBucket=${{ secrets.AWS_HOSTING_BUCKET }}"
           no-fail-on-empty-changeset: true
