@@ -32,17 +32,7 @@ jobs:
         with:
           node-version: 16.14.0
           cache: "npm"
-        - run: cd client
-        - run: npm ci
-        - run: npm test 
-      - name: Navigate to client
-        run: cd client
-      - name: Install dependencies
-        run: yarn install
-      - name: Build
-        run: yarn build
-      - name: Front-end Tests
-        run: yarn test
+          cache-dependency-path: client/package-lock.json
   deploy:
     runs-on: ubuntu-latest
     strategy:
