@@ -23,12 +23,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
-          role-session-name: GithubTriggeredDeployment
-          aws-region: '${{ github.event.inputs.AWS_REGION }}'
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
