@@ -2,7 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/materials/MassonWedding_TextMessage_QRCode.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/.github/workflows/deploy-react-app.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functions/.github/workflows/build-function-artifacts.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infrastructure/hosted-react-app-template.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/client/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/build-artifacts/profanity-archiver-function.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/commands/message-archiver/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/commands/message-archiver/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/commands/profanity-archiver/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/commands/profanity-archiver/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/commands/profanity-archiver/profanity-archiver.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-stack.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/notifications/profane-message-notification/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/notifications/profane-message-notification/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/notifications/safe-message-notification/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/notifications/safe-message-notification/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/queries/censorship/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/scrap-yaml-3.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/scrap-yaml-3.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +162,7 @@
       <workItem from="1669197902550" duration="3687000" />
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
-      <workItem from="1669657873822" duration="63515000" />
+      <workItem from="1669657873822" duration="73842000" />
     </task>
     <servers />
   </component>

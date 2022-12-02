@@ -172,3 +172,5 @@ Outputs:
     Value: !Sub "https://${SimpleAPI}.execute-api.${AWS::Region}.amazonaws.com/v1/hello"
   BucketName:
     Value: !Sub "react-cors-spa-${CFOriginAccessIdentity}"
+    
+    
