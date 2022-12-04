@@ -20,13 +20,6 @@ const MasonWeddingHeader = (props) => {
                     >
                         Wedding Day Texts
                     </Typography>
-                    <Box>
-                        {navItems.map((item) => (
-                            <Button key={item} sx={{color: '#fff'}}>
-                                {item}
-                            </Button>
-                        ))}
-                    </Box>
                 </Toolbar>
             </Box>
         </header>

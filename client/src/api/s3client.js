@@ -2,8 +2,11 @@ import StorageClient from "./storageclient";
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 
 export default class S3ClientImplementation extends StorageClient {
-    constructor(region) {
-        super(new S3Client({region: region}));
+    constructor(region, bucketName) {
+        super(new S3Client({
+            region: region,
+            bucket: bucketName
+        }));
     }
     
     async getMessages() {
