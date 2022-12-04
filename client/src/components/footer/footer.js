@@ -1,23 +1,16 @@
 import React from 'react';
 import {useStyles} from "./style";
-import {Link, List, ListItem} from "@mui/material";
+import logo from "../../images/footer-logo.png";
 
 const MasonDayFooter = (props) => {
     const classes = useStyles();
     return (
         <footer role="footer" className={classes.MasonDayFooter} {...props}>
-            <List role="link-list" className='list-unstyled'>
-                <ListItem>
-                    <Link data-testid="site-link" href='https://www.theknot.com/us/anna-lynd-and-connor-mason-dec-2022' className='text-dark'>
-                        Wedding Website
-                    </Link>
-                </ListItem>
-                <ListItem>
-                    <Link href='https://thetransept.com/' className='text-dark'>
-                        Venue Information
-                    </Link>
-                </ListItem>
-            </List>
+            <img
+                src={logo}
+                alt={'logo'}
+                className={classes.logo}
+            />
         </footer>
     );
 };

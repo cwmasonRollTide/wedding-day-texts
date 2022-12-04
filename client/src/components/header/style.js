@@ -2,11 +2,17 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(theme => ({
      MasonWeddingHeader: {
-         flexShrink: 0,
+         flexShrink: '0',
          display: 'flex',
-         flexDirection: 'column',
          alignItems: 'center',
          justifyContent: 'center',
-         backgroundColor: '#8b53ff'
+         margin: theme.spacing(0),
+         inset: theme.spacing(0),
+         width: '100%'
+    },
+    logo: {
+         width: '100%',
+         height: '100%',
+         alignSelf: 'center'
     }
 }));

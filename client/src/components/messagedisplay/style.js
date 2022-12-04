@@ -4,12 +4,26 @@ export const useStyles = makeStyles(theme => ({
     card: {},
     cardText: {},
     container: {
-        margin: theme.spacing(1),
-        inset: theme.spacing(0.5),
         backgroundColor: 'white',
         flexGrow: '1',
         overflow: 'auto',
-        minHeight: '2em',
+        // minHeight: 'calc(100% + 30em)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: theme.spacing(1),
+        marginRight: theme.spacing(2),
+        padding: theme.spacing(2),
+        paddingRight: theme.spacing(3),
+        bottom: '0',
+        width: 'calc(100% - 5.5em)',
+        marginLeft: theme.spacing(3),
+        flex: '1 1 auto',
+        alignSelf: 'stretch',
+        height: 'calc(100% + 50em)',
+        [theme.breakpoints.down("sm")]: {
+            width: 'calc(100% - 4.5em)',
+            marginLeft: theme.spacing(2)
+        }
     },
     cardImage: {},
     cardImageTop: {}
