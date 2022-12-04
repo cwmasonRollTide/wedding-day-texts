@@ -144,7 +144,7 @@ Resources:
     Properties:
       DeploymentId: !Ref gatewayDeployment
       RestApiId: !Ref WeddingDayTextsApi
-      StageName: StageName
+      StageName: !Ref StageName
     Type: 'AWS::ApiGateway::Stage'
     Metadata:
       'AWS::CloudFormation::Designer':
