@@ -51,8 +51,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: '${{ github.events.input.AWS_ROLE_TO_ASSUME }}'
+          role-to-assume: '${{ github.event.input.AWS_ROLE_TO_ASSUME }}'
           role-session-name: GithubTriggeredDeployment
-          aws-region: '${{ github.events.input.AWS_REGION }}'
+          aws-region: '${{ github.event.input.AWS_REGION }}'
       - name: Copy files over to bucket
-        run: 'aws s3 cp -r client/build s3://${{ github.events.input.AWS_HOSTING_BUCKET }}/${{ github.events.input.STAGE_NAME }}'
+        run: 'aws s3 cp -r client/build s3://${{ github.event.input.AWS_HOSTING_BUCKET }}/${{ github.event.input.STAGE_NAME }}'
