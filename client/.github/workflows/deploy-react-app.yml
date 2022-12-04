@@ -29,6 +29,8 @@ jobs:
       matrix:
         node-version: [ 14.x, 16.x, 18.x ]
     steps:
+      - name: Go to client folder?
+        run: 'cd client'
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
