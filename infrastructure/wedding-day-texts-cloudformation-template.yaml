@@ -16,11 +16,11 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - https://
+      - - 'https://'
         - !Ref WeddingDayTextsApi
-        - .execute-api.
+        - '.execute-api.'
         - !Ref AwsRegion
-        - .amazonaws.com/
+        - '.amazonaws.com/'
         - !Ref StageName
 Resources:
   WeddingDayTextsApi:
