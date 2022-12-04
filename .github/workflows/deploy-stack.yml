@@ -19,6 +19,10 @@ on:
         description: 'What stage to deploy to. right now just adds to naming of services'
         required: false
         default: 'test'
+      AWS_ROLE_TO_ASSUME:
+        description: 'Role to assume in aws'
+        required: true
+      
 jobs:  
   deploy:
     runs-on: ubuntu-latest
@@ -26,20 +30,20 @@ jobs:
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+          role-to-assume: '${{ github.events.inputs.AWS_ROLE_TO_ASSUME }}'
           role-session-name: GithubTriggeredDeployment
-          aws-region: '${{ secrets.AWS_REGION }}'
+          aws-region: '${{ github.events.inputs.AWS_REGION }}'
       - name: Upload censorship function to AWS S3 Function bucket
-        run: 'aws s3 cp build-artifacts/censorship-function.zip s3://${{ secrets.AWS_FUNCTION_BUCKET }}'
+        run: 'aws s3 cp build-artifacts/censorship-function.zip s3://${{ github.events.inputs.AWS_FUNCTION_BUCKET }}'
       - name: Upload message archiver function to AWS S3 Function bucket
-        run: 'aws s3 cp build-artifacts/message-archiver-function.zip s3://${{ secrets.AWS_FUNCTION_BUCKET }}'
+        run: 'aws s3 cp build-artifacts/message-archiver-function.zip s3://${{ github.events.inputs.AWS_FUNCTION_BUCKET }}'
       - name: Upload message archiver function to AWS S3 Function bucket
-        run: 'aws s3 cp build-artifacts/profane-message-notification-function.zip s3://${{ secrets.AWS_FUNCTION_BUCKET }}'
+        run: 'aws s3 cp build-artifacts/profane-message-notification-function.zip s3://${{ github.events.inputs.AWS_FUNCTION_BUCKET }}'
       - name: Upload safe message notification function to AWS S3 Function bucket
-        run: 'aws s3 cp build-artifacts/safe-message-notification-function.zip s3://${{ secrets.AWS_FUNCTION_BUCKET }}'
+        run: 'aws s3 cp build-artifacts/safe-message-notification-function.zip s3://${{ github.events.inputs.AWS_FUNCTION_BUCKET }}'
       - uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: WeddingDayTexts
           template: infrastructure/wedding-day-texts-cloudformation-template.yaml
-          parameter-overrides: "AwsRegion=${{ secrets.AWS_REGION }},StageName=${{ secrets.STAGE_NAME }},FunctionBucket=${{ secrets.AWS_FUNCTION_BUCKET }}"
+          parameter-overrides: "AwsRegion=${{ github.events.inputs.AWS_REGION }},StageName=${{ github.events.inputs.STAGE_NAME }},FunctionBucket=${{ github.events.inputs.AWS_FUNCTION_BUCKET }}"
           no-fail-on-empty-changeset: true
