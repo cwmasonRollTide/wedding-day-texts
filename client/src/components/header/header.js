@@ -13,6 +13,7 @@ const MasonWeddingHeader = (props) => {
         <header role="header" className={classes.MasonWeddingHeader} {...props}>
             <Box style={{display: 'flex'}}>
                 <Toolbar>
+                    <img src={'../../../images/FullLogo.png'} alt={'logo'}/>
                     <Typography
                         variant="h6"
                         component="div"

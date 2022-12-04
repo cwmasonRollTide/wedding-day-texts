@@ -4,10 +4,10 @@ import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
 import MessageDisplay from "../../components/messagedisplay/messageDisplay";
 
-const MasonMainPage = (props) => {
+const MainPage = (props) => {
     const classes = useStyles();
     return (
-        <div role="App" className={classes.App} {...props} >
+        <div className={classes.App} {...props} >
             <Header />
             <MessageDisplay />
             <Footer />
@@ -15,4 +15,4 @@ const MasonMainPage = (props) => {
     );
 }
 
-export default MasonMainPage;
+export default MainPage;

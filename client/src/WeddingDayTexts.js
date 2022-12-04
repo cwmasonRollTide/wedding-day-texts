@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MasonMainPage from "./pages/MasonMainPage";
+import MainPage from "./pages/MainPage";
 import { useTheme, ThemeProvider } from '@mui/material/styles';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
@@ -10,7 +10,7 @@ const WeddingDayTexts = () => {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <MasonMainPage />
+                <MainPage />
             </ThemeProvider>
         </ColorModeContext.Provider>
     );
