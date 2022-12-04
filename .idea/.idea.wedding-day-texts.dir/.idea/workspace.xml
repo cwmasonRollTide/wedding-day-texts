@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/client/src/components/footer/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/messagedisplay/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messagedisplay/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/styles.js" afterDir="false" />
-    </list>
+    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -148,7 +144,7 @@
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
       <workItem from="1669657873822" duration="90278000" />
-      <workItem from="1670121370183" duration="1958000" />
+      <workItem from="1670121370183" duration="2255000" />
     </task>
     <servers />
   </component>
@@ -191,7 +187,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/components/footer/footer.test.js</url>
-          <line>12</line>
+          <line>11</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

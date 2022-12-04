@@ -5,20 +5,20 @@ name: Wedding Day Texts Test/Build/Deploy Github Action
 #    branches: [ "main" ]
 #  pull_request:
 #    branches: [ "main" ]
-  workflow_dispatch:
-    inputs:
-      AWS_REGION:
-        description: 'Region to deploy functions and later on cloudformation to'
-        required: true
-        default: 'us-east-2'
-      AWS_FUNCTION_BUCKET:
-        description: 'AWS S3 bucket to hold the Lambda functions'
-        required: true
-        default: 'functions-test-s3-bucket'
-      STAGE_NAME:
-        description: 'What stage to deploy to. right now just adds to naming of services'
-        required: false
-        default: 'test'
+workflow_dispatch:
+  inputs:
+    AWS_REGION:
+      description: 'Region to deploy functions and later on cloudformation to'
+      required: true
+      default: 'us-east-2'
+    AWS_FUNCTION_BUCKET:
+      description: 'AWS S3 bucket to hold the Lambda functions'
+      required: true
+      default: 'functions-test-s3-bucket'
+    STAGE_NAME:
+      description: 'What stage to deploy to. right now just adds to naming of services'
+      required: false
+      default: 'test'
 jobs:  
   deploy:
     runs-on: ubuntu-latest
