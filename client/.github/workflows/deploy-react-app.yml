@@ -1,23 +1,26 @@
 name: Wedding Day Texts Front-end Message Display app
 on:
-  pull_request:
-    branches: [ "main", "develop" ]
+#  pull_request:
+#    branches: [ "main", "develop" ]
 #  push:
 #    branches: [ "develop", "main" ]
-#  workflow_dispatch:
-#    inputs:
-#      AWS_REGION:
-#        description: 'Region to deploy functions and later on cloudformation to'
-#        required: true
-#        default: 'us-east-2'
-#      STAGE_NAME:
-#        description: 'What stage to deploy to. right now just adds to naming of services'
-#        required: false
-#        default: 'test'
-#      AWS_HOSTING_BUCKET:
-#        description: 'Where should we deploy the front-end react application to?'
-#        required: true
-#        default: 'not configured yet'
+  workflow_dispatch:
+    inputs:
+      AWS_REGION:
+        description: 'Region to deploy functions and later on cloudformation to'
+        required: true
+        default: 'us-east-2'
+      STAGE_NAME:
+        description: 'What stage to deploy to. right now just adds to naming of services'
+        required: false
+        default: 'test'
+      AWS_HOSTING_BUCKET:
+        description: 'Where should we deploy the front-end react application to?'
+        required: true
+        default: 'wedding-day-texts-display-bucket'
+      AWS_ROLE_TO_ASSUME:
+        description: 'Role to assume for credentials (arn value)'
+        required: true
 
 jobs:
   build-and-test:
@@ -26,6 +29,11 @@ jobs:
       matrix:
         node-version: [ 14.x, 16.x, 18.x ]
     steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Install
         run: yarn install
       - name: Build
@@ -41,8 +49,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+          role-to-assume: '${{ github.events.input.AWS_ROLE_TO_ASSUME }}'
           role-session-name: GithubTriggeredDeployment
-          aws-region: '${{ secrets.AWS_REGION }}'
+          aws-region: '${{ github.events.input.AWS_REGION }}'
       - name: Copy files over to bucket
-        run: 'aws s3 cp -r client/build s3://${{ secrets.AWS_HOSTING_BUCKET }}'
+        run: 'aws s3 cp -r client/build s3://${{ github.events.input.AWS_HOSTING_BUCKET }}/${{ github.events.input.STAGE_NAME }}'
