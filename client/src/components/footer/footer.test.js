@@ -7,7 +7,6 @@ describe('Footer tests', () => {
         const { getByRole } = customRender(<Footer />);
         expect(getByRole("footer")).not.toBeNull();
         expect(getByRole("link-list")).not.toBeNull();
-        expect(getByRole("event-date")).not.toBeNull();
     })
     
     it('Link should have attribute', () => {

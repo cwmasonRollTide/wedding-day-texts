@@ -6,8 +6,8 @@ export const useStyles = makeStyles(theme => ({
     container: {
         margin: theme.spacing(1),
         inset: theme.spacing(0.5),
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
+        color: 'black',
+        backgroundColor: 'blue',
     },
     cardImage: {},
     cardImageTop: {}
