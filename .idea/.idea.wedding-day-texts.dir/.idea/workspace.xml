@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="" />
+    <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/build-artifacts/message-archiver-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/build-artifacts/message-archiver-function.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/queries/censorship/censorship-function.zip" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,21 +38,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "18.12.1",
-    "javascript.nodejs.core.library.typings.version": "18.11.9",
-    "last_opened_file_path": "C:/Users/Connor/projects/wedding-day-texts",
-    "nodejs.jest.jest_package": "C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "inlay.hints",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.12.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.11.9&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -145,7 +150,7 @@
       <workItem from="1669348822345" duration="26413000" />
       <workItem from="1669576236861" duration="47686000" />
       <workItem from="1669657873822" duration="90278000" />
-      <workItem from="1670121370183" duration="25849000" />
+      <workItem from="1670121370183" duration="27120000" />
     </task>
     <servers />
   </component>

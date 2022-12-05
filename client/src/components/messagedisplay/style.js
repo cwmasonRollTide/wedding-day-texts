@@ -7,7 +7,6 @@ export const useStyles = makeStyles(theme => ({
         backgroundColor: 'white',
         flexGrow: '1',
         overflow: 'auto',
-        // minHeight: 'calc(100% + 30em)',
         justifyContent: 'center',
         alignItems: 'center',
         margin: theme.spacing(1),
