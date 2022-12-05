@@ -11,6 +11,6 @@ export const useStyles = makeStyles(theme => ({
     },
     ImagePost: {
         margin: theme.spacing(0.25),
-        backgroundColor: 'white'
+        backgroundColor: 'lightblue'
     }
 }));

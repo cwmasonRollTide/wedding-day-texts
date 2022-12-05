@@ -8,5 +8,5 @@ describe('Header Tests', () => {
    it('Should render the header', () => {
        const { getByRole } = render(<TestUtils><Header /></TestUtils>);
        expect(getByRole("header")).not.toBeNull();
-   }) 
+   });
 });
