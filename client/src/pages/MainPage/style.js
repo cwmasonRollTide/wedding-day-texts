@@ -2,13 +2,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(theme => ({
     App: {
-        // width: '100%',
-        height: 'fit-content',
+        height: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
-        flex: 2,
+        // flexDirection: 'column',
+        // flexWrap: 'wrap',
+        // flex: 'auto',
         backgroundColor: 'lightgrey',
-        justifyContent: 'space-between'
+        justifyContent: 'stretch'
     }
 }));

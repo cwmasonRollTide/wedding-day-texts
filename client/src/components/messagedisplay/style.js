@@ -5,7 +5,9 @@ export const useStyles = makeStyles(theme => ({
     cardText: {},
     container: {
         backgroundColor: 'white',
-        flexGrow: '1',
+        flexGrow: 'auto',
+        flexWrap: 'wrap',
+        height: '100%',
         overflow: 'auto',
         justifyContent: 'center',
         alignItems: 'center',
@@ -16,12 +18,17 @@ export const useStyles = makeStyles(theme => ({
         bottom: '0',
         width: 'calc(100% - 5.5em)',
         marginLeft: theme.spacing(3),
-        flex: '1 1 auto',
+        flex: 'auto',
         alignSelf: 'stretch',
-        height: 'calc(100% + 50em)',
+        [theme.breakpoints.down("md")]: {
+            width: 'calc(100% - 5em)',
+            marginLeft: theme.spacing(2),
+            // height: '39.75em'
+        },
         [theme.breakpoints.down("sm")]: {
             width: 'calc(100% - 4.5em)',
-            marginLeft: theme.spacing(2)
+            marginLeft: theme.spacing(2),
+            // height: '39.75em'
         }
     },
     cardImage: {},

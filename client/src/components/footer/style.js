@@ -11,6 +11,11 @@ export const useStyles = makeStyles(theme => ({
         position: 'fixed',
         bottom: '0',
         width: 'calc(100% - 64px)',
+        [theme.breakpoints.down("sm")]: {
+            width: 'calc(100% - 3em)',
+            marginLeft: theme.spacing(0),
+            // minHeight: '40em'
+        }
     },
     link: {
         color: 'white'
