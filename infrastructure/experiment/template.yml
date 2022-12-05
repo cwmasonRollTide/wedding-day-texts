@@ -1,0 +1,213 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  A Lambda function triggered by an AWS API Gateway HTTP APIs call through an
+  Amazon SQS Queue for buffering
+Parameters:
+  AwsRegion:
+    Type: String
+Resources:
+  IncomingQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: IncomingQueue
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: dfda8986-50c8-4cef-a242-840dcd3acb68
+  PublicApiWedTexts:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Description: API Endpoint to receive payloads and queue in SQS
+      Name: PublicApiWedTexts
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: facdafb1-fb21-44c2-90cf-5324d58ac35e
+  PublicApiWedTextsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+        Version: 2012-10-17
+      Policies:
+        - PolicyName: apig-sqs-send-msg-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action: 'sqs:SendMessage'
+                Effect: Allow
+                Resource: !GetAtt IncomingQueue.Arn
+              - Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Effect: Allow
+                Resource: '*'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e9ecdc24-8649-4921-baca-03458877686e
+  EnqueueResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      ParentId: !GetAtt PublicApiWedTexts.RootResourceId
+      PathPart: messageincoming
+      RestApiId: !Ref PublicApiWedTexts
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9cf6c1ed-6dd0-4636-90bd-e3d2dd362bd0
+  GetMethod:
+    Type: 'AWS::ApiGateway::Method'
+    DependsOn:
+      - EnqueueResource
+      - PublicApiWedTexts
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Credentials: !GetAtt PublicApiWedTextsRole.Arn
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+          - StatusCode: '200'
+        RequestParameters:
+          integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
+        RequestTemplates:
+          application/json: >-
+            Action=SendMessagefromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
+        Type: AWS
+        Uri: !Join
+          - ''
+          - - 'arn:aws:apigateway:'
+            - !Ref AwsRegion
+            - ':sqs:path/'
+            - !Ref 'AWS::AccountId'
+            - /
+            - !GetAtt IncomingQueue.QueueName
+      ResourceId: !Ref EnqueueResource
+      RestApiId: !Ref PublicApiWedTexts
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: ecfc025b-4bea-4c24-bcf6-98abb48ac8b7
+  CensoringFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: CensoringFunction
+      Description: Lambda to be invoked by the SQS Queue
+      CodeUri: s3://functions-test-s3-bucket/censorship-function.zip
+      Handler: index.handler
+      Runtime: nodejs16.x
+      Timeout: 3
+      MemorySize: 128
+      Events:
+        MySQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt IncomingQueue.Arn
+            BatchSize: 10
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 41197212-b9e4-4cef-bf1e-334574d98dee
+  PublicApiWedTextsAccessLogs:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: PublicApiWedTexts-Access-Logs
+      RetentionInDays: 1
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d953c01a-909f-4517-b6a4-7b3f2eccb9fe
+Outputs:
+  PublicApiWedTextsEndpoint:
+    Description: HTTP API endpoint
+    Value: !Sub 'https://${PublicApiWedTexts}.execute-api.${AwsRegion}.amazonaws.com'
+  CensoringFunction:
+    Description: CensoringFunction function name
+    Value: !Ref CensoringFunction
+  IncomingQueueARN:
+    Description: SQS queue ARN
+    Value: !GetAtt IncomingQueue.Arn
+  IncomingQueueURL:
+    Description: SQS queue URL
+    Value: !Ref IncomingQueue
+Metadata:
+  'AWS::CloudFormation::Designer':
+    d953c01a-909f-4517-b6a4-7b3f2eccb9fe:
+      size:
+        width: 150
+        height: 150
+      position:
+        x: -230
+        'y': 220
+      z: 1
+      embeds: []
+    facdafb1-fb21-44c2-90cf-5324d58ac35e:
+      size:
+        width: 150
+        height: 150
+      position:
+        x: 320
+        'y': 120
+      z: 1
+      embeds: []
+    9cf6c1ed-6dd0-4636-90bd-e3d2dd362bd0:
+      size:
+        width: 240
+        height: 240
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds:
+        - ecfc025b-4bea-4c24-bcf6-98abb48ac8b7
+    dfda8986-50c8-4cef-a242-840dcd3acb68:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 60
+        'y': 390
+      z: 1
+      embeds: []
+    5e6f465f-8c0a-489d-afbd-36141a2b443d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -30
+        'y': 280
+      z: 1
+      embeds: []
+    41197212-b9e4-4cef-bf1e-334574d98dee:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 170
+        'y': 390
+      z: 1
+      embeds: []
+    ecfc025b-4bea-4c24-bcf6-98abb48ac8b7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 90
+        'y': 150
+      z: 2
+      parent: 9cf6c1ed-6dd0-4636-90bd-e3d2dd362bd0
+      embeds: []
+      dependson:
+        - 9cf6c1ed-6dd0-4636-90bd-e3d2dd362bd0
+        - facdafb1-fb21-44c2-90cf-5324d58ac35e
+    e9ecdc24-8649-4921-baca-03458877686e:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -40
+        'y': 390
+      z: 1
+      embeds: []

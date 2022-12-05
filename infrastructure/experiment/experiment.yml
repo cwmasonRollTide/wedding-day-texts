@@ -1,0 +1,176 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A Lambda function triggered by an AWS API Gateway HTTP APIs call through an Amazon SQS Queue for buffering
+
+# Comment each resource section to explain usage
+Resources:
+  ##########################################################################
+  #   SQS Queue                                        #
+  ##########################################################################
+  # Define the SQS queue
+  IncomingQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: IncomingQueue
+  
+  ##########################################################################
+  #   HTTP API                                                             #
+  ##########################################################################
+  PublicApiWedTexts:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Description: API Endpoint to receive payloads and queue in SQS
+      Name: PublicApiWedTexts
+  PublicApiWedTextsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+        Version: 2012-10-17
+      Policies:
+        - PolicyName: apig-sqs-send-msg-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action: 'sqs:SendMessage'
+                Effect: Allow
+                Resource: !GetAtt IncomingQueue.Arn
+              - Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Effect: Allow
+                Resource: '*'
+      RoleName: apig-sqs-send-msg-role
+  
+  ##########################################################################
+  #   Lambda Function                                                      #
+  ##########################################################################
+  CensoringFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CensoringFunction
+      Description: Lambda to be invoked by the SQS Queue
+      CodeUri: ../../functions/build-artifacts/censorship-function.zip
+      Handler: index.handler
+      Runtime: nodejs16.x
+      Timeout: 3
+      MemorySize: 128
+      Events:
+        MySQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt IncomingQueue.Arn
+            BatchSize: 10
+  
+  ##########################################################################
+  #   Roles                                                               #
+  ##########################################################################
+  PublicFacingApiRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: AllowSqsIntegration
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sqs:SendMessage'
+                  - 'sqs:GetQueueUrl'
+                  - 'sqs:SendMessageBatch'
+                Resource: !GetAtt IncomingQueue.Arn
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:DescribeLogGroups'
+                  - 'logs:DescribeLogStreams'
+                  - 'logs:PutLogEvents'
+                  - 'logs:GetLogEvents'
+                  - 'logs:FilterLogEvents'
+                Resource: !GetAtt PublicFacingApiAccessLogs.Arn
+                
+  EnqueueResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      ParentId: !GetAtt PublicApiWedTexts.RootResourceId
+      PathPart: messageincoming
+      RestApiId: !Ref PublicApiWedTexts
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9cf6c1ed-6dd0-4636-90bd-e3d2dd362bd0
+  GetMethod:
+    Type: 'AWS::ApiGateway::Method'
+    DependsOn:
+      - EnqueueResource
+      - PublicApiWedTexts
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: GET
+      Integration:
+        Credentials: !GetAtt PublicApiWedTexts.Arn
+        IntegrationHttpMethod: GET
+        IntegrationResponses:
+          - StatusCode: '200'
+        RequestParameters:
+          integration.request.header.Content-Type: '''application/x-www-form-urlencoded'''
+        RequestTemplates:
+          application/json: >-
+            Action=SendMessagefromNumber=$input.params('From')&messageBody=$input.params('Body')&image=$input.params('MediaUrl0')&numMedia=$input.params('NumMedia')
+        Type: AWS
+        Uri: !Join
+          - ''
+          - - 'arn:aws:apigateway:'
+            - !Ref AwsRegion
+            - ':sqs:path/'
+            - !Ref 'AWS::AccountId'
+            - /
+            - !GetAtt WeddingDayTextsIncomingMessageQueue.QueueName
+      ResourceId: !Ref EnqueueResource
+      RestApiId: !Ref WeddingDayTextsApi
+  
+  ##########################################################################
+  #   Cloudwatch Logs                                                       #
+  ##########################################################################
+
+  PublicFacingApiAccessLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: PublicFacingApi-Access-Logs
+      RetentionInDays: 1
+
+##########################################################################
+#   Outputs                                                              #
+##########################################################################
+Outputs:
+  PublicFacingApiEndpoint:
+    Description: "HTTP API endpoint"
+    Value: !Sub "https://${PublicFacingApi}.execute-api.${AWS::Region}.amazonaws.com"
+
+  CensoringFunction:
+    Description: CensoringFunction function name
+    Value: !Ref CensoringFunction
+
+  IncomingQueueARN:
+    Description: SQS queue ARN
+    Value: !GetAtt IncomingQueue.Arn
+
+  IncomingQueueURL:
+    Description: SQS queue URL
+    Value: !Ref IncomingQueue
