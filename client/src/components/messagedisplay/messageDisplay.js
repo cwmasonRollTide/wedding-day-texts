@@ -37,7 +37,6 @@ export const MessageDisplay = () => {
     
     return (
         <div data-testid="messagecontainer" id="images" className={classes.container}>
-            <h1>WEDDING DAY TEXTS</h1>
             {messages?.map((data, index) => 
                 <div key={index} className={classes.messageEntry} data-testid="message-entry">
                     { renderMessage(data) }

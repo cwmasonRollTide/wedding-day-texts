@@ -16,11 +16,11 @@ Outputs:
     Description: Endpoint for this stage of the api
     Value: !Join
       - ''
-      - - https://
+      - - 'https://'
         - !Ref WeddingDayTextsApi
-        - .execute-api.
+        - '.execute-api.'
         - !Ref AwsRegion
-        - .amazonaws.com/
+        - '.amazonaws.com/'
         - !Ref StageName
 Resources:
   WeddingDayTextsApi:
@@ -144,7 +144,7 @@ Resources:
     Properties:
       DeploymentId: !Ref gatewayDeployment
       RestApiId: !Ref WeddingDayTextsApi
-      StageName: StageName
+      StageName: !Ref StageName
     Type: 'AWS::ApiGateway::Stage'
     Metadata:
       'AWS::CloudFormation::Designer':
@@ -550,7 +550,7 @@ Metadata:
         height: 60
       position:
         x: 660
-        'y': 630
+        'y': 590
       z: 1
       embeds: []
       dependson:
@@ -570,7 +570,7 @@ Metadata:
         height: 60
       position:
         x: 660
-        'y': 430
+        'y': 370
       z: 1
       embeds: []
       dependson:
@@ -745,24 +745,7 @@ Metadata:
         'y': 310
       z: 1
       embeds: []
-    ad1990de-0186-483d-b5df-298425f94019:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: 660
-        'y': 570
-      z: 1
-      embeds: []
-    989ccf29-3434-41d7-8d13-61f17917e33e:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: 660
-        'y': 360
-      z: 1
-      embeds: []
+
 
 #Infrastructure 
 # Like the brick layers of old

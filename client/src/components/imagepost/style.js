@@ -6,9 +6,11 @@ export const useStyles = makeStyles(theme => ({
     },
     Text: {
         textAlign: 'left',
-        textIndent: '1REM'
+        textIndent: '1REM',
+        backgroundColor: 'blue'
     },
     ImagePost: {
         margin: theme.spacing(0.25),
+        backgroundColor: 'white'
     }
 }));

@@ -1,4 +1,4 @@
-export default function handler(event, context) {
+exports.handler =  async function(event, context) {
   console.log("EVENT: \n" + JSON.stringify(event, null, 2))
-  console.log("Context: \n" + JSON.stringify(context));
+  return context.logStreamName
 }

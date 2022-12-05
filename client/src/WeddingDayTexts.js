@@ -1,8 +1,6 @@
 import * as React from 'react';
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
+import MainPage from "./pages/MainPage";
 import { useTheme, ThemeProvider } from '@mui/material/styles';
-import MessageDisplay from "./components/messagedisplay/messageDisplay";
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -12,13 +10,7 @@ const WeddingDayTexts = () => {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <div role="App">
-                    {/*<h1>WEDDING DAY TEXTS COMING SOON</h1>*/}
-                    {/*<image media={}*/}
-                    <Header />
-                    <MessageDisplay />
-                    <Footer />
-                </div>
+                <MainPage />
             </ThemeProvider>
         </ColorModeContext.Provider>
     );
