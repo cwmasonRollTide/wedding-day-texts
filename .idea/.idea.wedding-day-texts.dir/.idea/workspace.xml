@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/aws.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.wedding-day-texts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/s3client.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/s3client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/textpost/textpost.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/MainPage/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MainPage/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/build-artifacts/censorship-function.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions/queries/censorship/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/queries/censorship/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/queries/censorship/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +33,7 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/build/static/js/main.fbf1c86a.js.map" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/client/package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -38,21 +44,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.12.1&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.11.9&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts&quot;,
-    &quot;nodejs.jest.jest_package&quot;: &quot;C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "18.12.1",
+    "javascript.nodejs.core.library.typings.version": "18.11.9",
+    "last_opened_file_path": "C:/Users/Connor/projects/wedding-day-texts",
+    "nodejs.jest.jest_package": "C:/Users/Connor/projects/wedding-day-texts/client/node_modules/react-scripts",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -61,7 +67,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Jest.Tests for the message list component.Should render image message with multiple images? Dont know for certain what that will look like being returned">
+  <component name="RunManager" selected="AWS Lambda.[Remote] wedding-day-CensorshipFunction-KMNLnFMgcbid">
     <configuration name="Tests for the message list component" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -103,20 +109,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Tests for the message list component.Should render message with multiple images?" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/client/node_modules/react-scripts" />
-      <working-dir value="$PROJECT_DIR$/client" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/client/src/components/messagedisplay/messageDisplay.test.js" />
-      <test-names>
-        <test-name value="Tests for the message list component" />
-        <test-name value="Should render message with multiple images?" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="messageDisplay.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -129,11 +121,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="AWS Lambda.[Remote] wedding-day-CensorshipFunction-KMNLnFMgcbid" />
         <item itemvalue="Jest.Tests for the message list component" />
         <item itemvalue="Jest.Tests for the message list component.Should render image message with multiple images? Dont know for certain what that will look like being returned" />
         <item itemvalue="Jest.messageDisplay.test.js" />
         <item itemvalue="Jest.Tests for the message list component.Should not display anything if no messages provided" />
-        <item itemvalue="Jest.Tests for the message list component.Should render message with multiple images?" />
       </list>
     </recent_temporary>
   </component>
@@ -151,7 +143,7 @@
       <workItem from="1669576236861" duration="47686000" />
       <workItem from="1669657873822" duration="90278000" />
       <workItem from="1670121370183" duration="31847000" />
-      <workItem from="1670223755901" duration="7257000" />
+      <workItem from="1670223755901" duration="14969000" />
     </task>
     <servers />
   </component>

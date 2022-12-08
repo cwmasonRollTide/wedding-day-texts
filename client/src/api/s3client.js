@@ -10,7 +10,7 @@ export default class S3ClientImplementation extends StorageClient {
     
     async getMessages() {
         return await super.getMessages(new ListObjectsV2Command({
-            Bucket: 'wedding-day-texts-spa-test'
+            Bucket: 'safe-message-bucket'
         }));
     }
 }

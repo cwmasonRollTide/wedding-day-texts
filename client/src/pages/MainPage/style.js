@@ -6,7 +6,6 @@ export const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
-        // flex: 'auto',
         backgroundColor: 'lightgrey',
         justifyContent: 'stretch'
     }

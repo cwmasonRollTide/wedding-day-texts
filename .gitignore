@@ -17,3 +17,4 @@ functions/notifications/safe-message-notification/node_modules/
 functions/notifications/safe-message-notification/package-lock.json
 functions/queries/censorship/node_modules/
 entries/
+.idea/

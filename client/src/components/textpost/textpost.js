@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import {useStyles} from "./styles";
 import PropTypes from "prop-types";
 
