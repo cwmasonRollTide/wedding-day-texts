@@ -63,9 +63,9 @@ function determineBadContent(data) {
 exports.handler =  async function(event, context) {
   try {
     console.log("EVENT: \n" + JSON.stringify(event, null, 2));
-    console.log("Media: \n" + JSON.stringify(image, null, 2));
     console.log("Context: \n" + JSON.stringify(context, null, 2));
     const image = await getImage(event['mediaUrl0']);
+    console.log("Media: \n" + JSON.stringify(image, null, 2));
     const contentIsInappropriate = await isContentInappropriate(image);
     if (contentIsInappropriate === true) {
       console.log("CONTENT IS NOT APPROPRIATE FOR GRANDMOTHA EYES YALL");
