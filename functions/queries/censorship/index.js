@@ -1,11 +1,11 @@
 'use strict';
-const https = require('https');
-const AWS = require('aws-sdk')
+const http = require('http');
+const AWS = require('aws-sdk');
 
 // Use simple http client to retrieve the image data via get request
 function getImage(url) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, res => {
+    const req = http.get(url, res => {
       let rawData = '';
       res.on('data', chunk => {
         rawData += chunk;
@@ -53,14 +53,16 @@ function isContentInappropriate(image) {
 // scores but still I don't have examples to work with - seems like they should provide sample payloads.
 function determineBadContent(data) {
   console.log('THIS IS WHAT IS RETURNED FROM REKOGNITION: \n' + JSON.stringify(data, null, 2));
-  return data.ModerationLabels.any(x => x.Name.toLowerCase().contains('nudity'));
+  return data.ModerationLabels.any(x => 
+      x.Name.toLowerCase().contains('nudity') || 
+      x.Name.toLowerCase().contains('middle finger') || 
+      x.Name.toLowerCase().contains('drug'));
 }
 
 exports.handler =  async function(event, context) {
   try {
     console.log("EVENT: \n" + JSON.stringify(event, null, 2));
-    console.log("Context: \n" + JSON.stringify(context, null, 2));
-    const image = await getImage(event['mediaUrl0']);
+    const image = await getImage(event.images[0]);
     console.log("Media: \n" + JSON.stringify(image, null, 2));
     const contentIsInappropriate = await isContentInappropriate(image);
     if (contentIsInappropriate === true) {
@@ -73,8 +75,8 @@ exports.handler =  async function(event, context) {
   } catch (err) {
     console.log('BIG ERROR');
     console.log(err);
-    return { status: '500' };
+    return { statusCode: '500' };
   }
   
-  return { status: '200' };
+  return { statusCode: '200' };
 }
