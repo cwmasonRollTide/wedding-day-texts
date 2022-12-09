@@ -10,7 +10,7 @@ const MainPage = (props) => {
         <div className={classes.App} {...props} >
             <Header />
             <MessageDisplay />
-            <Footer />
+            {/*<Footer />*/}
         </div>
     );
 }

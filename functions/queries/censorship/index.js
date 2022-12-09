@@ -3,7 +3,7 @@ const https = require('https');
 const AWS = require('aws-sdk');
 
 // Use simple https client to retrieve the image data via get request
-function getImage(url) {
+function getImage(messageSid, accountSid) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, res => {
       let rawData = '';
