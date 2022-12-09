@@ -62,7 +62,7 @@ exports.handler =  async function(event, context) {
   try {
     console.log("EVENT: \n" + JSON.stringify(event, null, 2));
     event.images?.map(async (mediaUrl) => {
-      const image = await getImage(mediaUrl);
+      const image = await getImage(new URL(mediaUrl));
       console.log("Media: \n" + JSON.stringify(image, null, 2));
       const contentIsInappropriate = await isContentInappropriate(image);
       if (contentIsInappropriate === true) {
