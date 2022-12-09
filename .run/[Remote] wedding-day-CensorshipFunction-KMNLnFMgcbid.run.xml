@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="[Remote] wedding-day-CensorshipFunction-KMNLnFMgcbid" type="aws.lambda" factoryName="Remote" singleton="false" nameIsGenerated="true">
+    <option name="credentialProviderId" value="profile:default" />
+    <option name="regionId" value="us-east-2" />
+    <option name="functionName" value="wedding-day-CensorshipFunction-KMNLnFMgcbid" />
+    <option name="input" value="{ &quot;body&quot;:  &quot;text&quot;}" />
+    <option name="inputIsFile" value="false" />
+    <method v="2" />
+  </configuration>
+</component>
