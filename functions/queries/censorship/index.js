@@ -1,6 +1,6 @@
 'use strict';
 const https = require('https');
-const { Rekognition } = require('aws-sdk')
+const AWS = require('aws-sdk')
 
 // Use simple http client to retrieve the image data via get request
 function getImage(url) {
@@ -32,24 +32,23 @@ function getImage(url) {
 // Returns false if the content is perfectly fine.
 function isContentInappropriate(image) {
   return new Promise((resolve, reject) => {
-      const rekognition = new Rekognition({
-        region: 'us-east-2', // like us-east-1
-      });
-      const request = {
-        "Image": {
-          "Bytes": image
-        },
-        "MinConfidence": 60
-      };
-      rekognition.detectModerationLabels(request, (err, data) => {
-        if (err) {
-          console.log(err);
-          reject(new Error(err ?? ''));
-        } else {
-          const isInappropContent = determineBadContent(data);
-          resolve(isInappropContent);
-        }
-      });
+    // Initialize the Amazon Cognito credentials provider
+    const rekognition = new AWS.Rekognition({apiVersion: '2016-06-27'});
+    const request = {
+      "Image": {
+        "Bytes": image
+      },
+      "MinConfidence": 60
+    };
+    rekognition.detectModerationLabels(request, (err, data) => {
+      if (err) {
+        console.log(err);
+        reject(new Error(err ?? ''));
+      } else {
+        const isInappropContent = determineBadContent(data);
+        resolve(isInappropContent);
+      }
+    });
   });
 }
 
