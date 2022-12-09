@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="513dff92-ce4a-4796-ad31-4c90211ba76f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/functions/queries/censorship/censorship-function.zip" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/censorship-function.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/queries/censorship/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/queries/censorship/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +135,7 @@
       <workItem from="1669576236861" duration="47686000" />
       <workItem from="1669657873822" duration="90278000" />
       <workItem from="1670121370183" duration="31847000" />
-      <workItem from="1670223755901" duration="30602000" />
+      <workItem from="1670223755901" duration="31119000" />
     </task>
     <servers />
   </component>
