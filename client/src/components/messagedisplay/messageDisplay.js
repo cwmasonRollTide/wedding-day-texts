@@ -4,7 +4,6 @@ import TextPost from "../textpost/textpost";
 import ImagePost from "../imagepost/imagepost";
 import React, {useEffect, useState} from 'react';
 import S3ClientImplementation from "../../api/s3client";
-import logo from "../../images/instructions.png";
 
 export const MessageDisplay = () => {
     const classes = useStyles();
@@ -40,11 +39,6 @@ export const MessageDisplay = () => {
     
     return (
         <div>
-            <img
-                src={logo}
-                alt={'logo'}
-                className={classes.logo}
-            />
             <div data-testid="messagecontainer" id="images" className={classes.container}>
                 {messages?.map((data, index) =>
                     <div key={index} className={classes.messageEntry} data-testid="message-entry">

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useStyles} from "./style";
 import Header from "../../components/header/header";
-import Footer from "../../components/footer/footer";
+// import Footer from "../../components/footer/footer";
 import MessageDisplay from "../../components/messagedisplay/messageDisplay";
 
 const MainPage = (props) => {
