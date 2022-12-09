@@ -8,15 +8,15 @@ const MasonWeddingHeader = (props) => {
     const classes = useStyles();
     return (
         <header role="header" className={classes.MasonWeddingHeader} {...props}>
-            <Box style={{display: 'flex'}}>
-                <Toolbar>
+            {/*<Box style={{display: 'flex'}}>*/}
+            {/*    <Toolbar>*/}
                     <img 
                         src={logo} 
                         alt={'logo'}
                         className={classes.logo}
                     />
-                </Toolbar>
-            </Box>
+                {/*</Toolbar>*/}
+            {/*</Box>*/}
         </header>
     );
 };
