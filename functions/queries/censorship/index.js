@@ -8,7 +8,6 @@ function getImage(url) {
     try {
       const params = {
         method: "GET",
-        mode: "cors",
         headers: {"Content-Type":"image/jpeg"}
       };
       const response = await fetch(url, params);
