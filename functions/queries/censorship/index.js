@@ -5,7 +5,7 @@ const AWS = require('aws-sdk');
 // Use simple http client to retrieve the image data via get request
 function getImage(url) {
   return new Promise((resolve, reject) => {
-    const req = http.get(url, res => {
+    const req = http.get(url.replace('https', 'http'), res => {
       let rawData = '';
       res.on('data', chunk => {
         rawData += chunk;
