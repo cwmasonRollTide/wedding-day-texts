@@ -1,18 +1,20 @@
 'use strict';
-const http = require('http');
+const https = require('https');
 const AWS = require('aws-sdk');
 
-// Use simple http client to retrieve the image data via get request
+// Use simple https client to retrieve the image data via get request
 function getImage(url) {
   return new Promise((resolve, reject) => {
-    const req = http.get(url.replace('https', 'http'), res => {
+    const req = https.get(url, res => {
       let rawData = '';
       res.on('data', chunk => {
         rawData += chunk;
       });
       res.on('end', () => {
         try {
-          resolve(JSON.parse(rawData));
+          console.log('Data:\n');
+          console.log(rawData);
+          resolve(rawData);
         } catch (err) {
           reject(new Error(err));
         }
