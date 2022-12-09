@@ -1,12 +1,17 @@
 'use strict';
 const AWS = require('aws-sdk');
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
 // Use simple https client to retrieve the image data via get request
 function getImage(url) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(url);
+      const params = {
+        method: "GET",
+        mode: "cors",
+        headers: {"Content-Type":"image/jpeg"}
+      };
+      const response = await fetch(url, params);
       const blob = await response.blob();
       console.log('BLOB: \n', null, 2, JSON.stringify(blob));
       resolve(blob);
