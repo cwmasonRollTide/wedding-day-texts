@@ -7,11 +7,9 @@ function getImage(url) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, res => {
       let rawData = '';
-
       res.on('data', chunk => {
         rawData += chunk;
       });
-
       res.on('end', () => {
         try {
           resolve(JSON.parse(rawData));
@@ -20,7 +18,6 @@ function getImage(url) {
         }
       });
     });
-
     req.on('error', err => {
       reject(new Error(err ?? ''));
     });
@@ -33,7 +30,7 @@ function getImage(url) {
 function isContentInappropriate(image) {
   return new Promise((resolve, reject) => {
     // Initialize the Amazon Cognito credentials provider
-    const rekognition = new AWS.Rekognition({apiVersion: '2016-06-27'});
+    const rekognition = new AWS.Rekognition();
     const request = {
       "Image": {
         "Bytes": image
@@ -56,7 +53,7 @@ function isContentInappropriate(image) {
 // scores but still I don't have examples to work with - seems like they should provide sample payloads.
 function determineBadContent(data) {
   console.log('THIS IS WHAT IS RETURNED FROM REKOGNITION: \n' + JSON.stringify(data, null, 2));
-  return true;
+  return data.ModerationLabels.any(x => x.Name.toLowerCase().contains('nudity'));
 }
 
 exports.handler =  async function(event, context) {
